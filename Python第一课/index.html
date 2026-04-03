@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>梦幻二次元 | 个人主页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&family=Noto+Serif+SC:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #f0a6ca 0%, #8b5cf6 50%, #3b82f6 100%);
+            background-attachment: fixed;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=dreamy%20anime%20style%20background%20with%20pastel%20colors%20and%20floating%20elements&image_size=landscape_16_9') no-repeat center center;
+            background-size: cover;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .title {
+            font-size: 56px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+            letter-spacing: 3px;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .subtitle {
+            font-size: 28px;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .nav {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+        
+        .nav a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+        
+        .nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #ff6b9d;
+            transition: width 0.3s ease;
+        }
+        
+        .nav a:hover::after {
+            width: 80%;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ffd1dc;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .card p {
+            margin-bottom: 15px;
+            text-align: justify;
+            color: #f0f0f0;
+        }
+        
+        .card strong {
+            color: #ffd1dc;
+        }
+        
+        .hobbies {
+            list-style: none;
+        }
+        
+        .hobbies li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+            color: #f0f0f0;
+        }
+        
+        .hobbies li::before {
+            content: '✨';
+            position: absolute;
+            left: 0;
+            color: #ff6b9d;
+            font-size: 16px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer p {
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 40px;
+            }
+            
+            .subtitle {
+                font-size: 22px;
+            }
+            
+            .nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .header {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">梦幻二次元</h1>
+                <p class="subtitle">汕头学子 | 燕云十六声爱好者</p>
+            </div>
+        </header>
+        
+        <nav class="nav">
+            <ul>
+                <li><a href="#about">关于我</a></li>
+                <li><a href="#hobbies">兴趣爱好</a></li>
+                <li><a href="#school">校园生活</a></li>
+                <li><a href="#contact">联系我</a></li>
+            </ul>
+        </nav>
+        
+        <div class="content">
+            <div class="card" id="about">
+                <h2>关于我</h2>
+                <p>大家好！我是一名来自汕头的大学生，目前就读于广东科学技术职业学院。我热爱二次元文化，喜欢沉浸在梦幻的动漫世界中。</p>
+                <p>我性格开朗，喜欢结交新朋友，也热衷于探索各种新鲜事物。在校园里，我努力学习专业知识，同时也积极参加各种社团活动。</p>
+                <p>我的生活充满了色彩，无论是在游戏世界中冒险，还是在漫画的故事里徜徉，都能让我感受到无穷的乐趣。</p>
+            </div>
+            
+            <div class="card" id="hobbies">
+                <h2>兴趣爱好</h2>
+                <ul class="hobbies">
+                    <li>玩燕云十六声 - 沉浸在武侠世界的精彩冒险中</li>
+                    <li>看漫画 - 追随各种精彩的故事和角色</li>
+                    <li>看短剧 - 欣赏短小精悍的剧情故事</li>
+                    <li>二次元文化 - 喜欢动漫、游戏和相关周边</li>
+                    <li>音乐 - 聆听各种风格的音乐，放松心情</li>
+                </ul>
+            </div>
+            
+            <div class="card" id="school">
+                <h2>校园生活</h2>
+                <p><strong>广东科学技术职业学院</strong></p>
+                <p>作为一名在校学生，我珍惜每一天的校园时光，努力学习专业知识，同时也积极参与各种校园活动。</p>
+                <p>我喜欢和同学们一起学习、交流，共同成长。校园生活不仅丰富了我的知识，也让我结识了许多志同道合的朋友。</p>
+                <p>我相信，通过不懈的努力，我会在未来的道路上走得更远，实现自己的梦想。</p>
+            </div>
+            
+            <div class="card" id="contact">
+                <h2>联系我</h2>
+                <p>邮箱：anime_lover@example.com</p>
+                <p>微信：AnimeFan2026</p>
+                <p>地址：广东省珠海市金湾区广东科学技术职业学院</p>
+                <p>欢迎喜欢二次元文化的朋友们和我交流！</p>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p>&copy; 2026 梦幻二次元 | 个人主页</p>
+            <p>以梦为马，不负韶华</p>
+            <p>汕头学子 | 燕云十六声爱好者</p>
+        </footer>
+    </div>
+</body>
+</html>
