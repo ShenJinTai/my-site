@@ -1038,6 +1038,7 @@ print(x + y)"></textarea>
             <div class="code-runner-controls">
                 <button class="code-runner-btn run" onclick="runCode()">运行代码</button>
                 <button class="code-runner-btn clear" onclick="clearCode()">清空</button>
+                <button class="code-runner-btn clear" onclick="resetToExample()">重置示例</button>
             </div>
             <div class="code-runner-output" id="codeOutput"></div>
             <div class="code-runner-status" id="codeStatus">就绪</div>
@@ -1154,6 +1155,14 @@ print(x + y)"></textarea>
         // Clear code
         function clearCode() {
             document.getElementById('codeInput').value = '';
+            document.getElementById('codeOutput').textContent = '';
+            document.getElementById('codeOutput').classList.remove('error');
+            document.getElementById('codeStatus').textContent = '就绪';
+        }
+        
+        // Reset to example code
+        function resetToExample() {
+            document.getElementById('codeInput').value = "print('Hello, World!')\nx = 10\ny = 20\nprint(x + y)";
             document.getElementById('codeOutput').textContent = '';
             document.getElementById('codeOutput').classList.remove('error');
             document.getElementById('codeStatus').textContent = '就绪';
