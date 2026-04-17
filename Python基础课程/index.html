@@ -471,6 +471,135 @@
                 font-size: 1.5rem;
             }
         }
+        
+        /* Code Runner Component */
+        .code-runner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 400px;
+            max-width: 90vw;
+            background-color: var(--card-background);
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            z-index: 1000;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .code-runner.collapsed {
+            height: 50px;
+        }
+        
+        .code-runner-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .code-runner-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .code-runner-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .code-runner-content {
+            padding: 1rem;
+        }
+        
+        .code-runner-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            resize: vertical;
+            margin-bottom: 0.75rem;
+        }
+        
+        .code-runner-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .code-runner-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .code-runner-btn.run {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .code-runner-btn.clear {
+            background-color: var(--border-color);
+            color: var(--text-color);
+        }
+        
+        .code-runner-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .code-runner-output {
+            background-color: #f3f4f6;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            padding: 0.75rem;
+            min-height: 100px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+        
+        .code-runner-output.error {
+            background-color: #fee2e2;
+            border-color: #fecaca;
+            color: #dc2626;
+        }
+        
+        .code-runner-status {
+            font-size: 0.875rem;
+            color: var(--light-text);
+            margin-top: 0.5rem;
+            text-align: right;
+        }
+        
+        @media (max-width: 768px) {
+            .code-runner {
+                width: 95vw;
+                bottom: 10px;
+                right: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -850,6 +979,31 @@
         </div>
     </footer>
 
+    <!-- Code Runner Component -->
+    <div class="code-runner" id="codeRunner">
+        <div class="code-runner-header" onclick="toggleCodeRunner()">
+            <h3>Python代码运行器</h3>
+            <button class="code-runner-toggle" id="codeRunnerToggle">▼</button>
+        </div>
+        <div class="code-runner-content">
+            <textarea class="code-runner-textarea" id="codeInput" placeholder="请输入Python代码...
+例如:
+print('Hello, World!')
+x = 10
+y = 20
+print(x + y)"></textarea>
+            <div class="code-runner-controls">
+                <button class="code-runner-btn run" onclick="runCode()">运行代码</button>
+                <button class="code-runner-btn clear" onclick="clearCode()">清空</button>
+            </div>
+            <div class="code-runner-output" id="codeOutput"></div>
+            <div class="code-runner-status" id="codeStatus">就绪</div>
+        </div>
+    </div>
+    
+    <!-- Pyodide CDN -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    
     <script>
         // FAQ 展开/折叠功能
         document.querySelectorAll('.faq-question').forEach(button => {
@@ -886,6 +1040,110 @@
                 navbar.style.boxShadow = 'none';
             }
         });
+        
+        // Code Runner Functionality
+        let pyodide;
+        let codeRunnerCollapsed = false;
+        
+        // Initialize Pyodide
+        async function initPyodide() {
+            try {
+                document.getElementById('codeStatus').textContent = '正在加载Python环境...';
+                pyodide = await loadPyodide({
+                    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/"
+                });
+                document.getElementById('codeStatus').textContent = '就绪';
+            } catch (error) {
+                console.error('Pyodide initialization error:', error);
+                document.getElementById('codeStatus').textContent = '加载失败';
+                document.getElementById('codeOutput').textContent = 'Python环境加载失败，请刷新页面重试。';
+                document.getElementById('codeOutput').classList.add('error');
+            }
+        }
+        
+        // Toggle code runner
+        function toggleCodeRunner() {
+            const codeRunner = document.getElementById('codeRunner');
+            const toggleBtn = document.getElementById('codeRunnerToggle');
+            codeRunnerCollapsed = !codeRunnerCollapsed;
+            
+            if (codeRunnerCollapsed) {
+                codeRunner.classList.add('collapsed');
+                toggleBtn.textContent = '▶';
+            } else {
+                codeRunner.classList.remove('collapsed');
+                toggleBtn.textContent = '▼';
+            }
+        }
+        
+        // Run code
+        async function runCode() {
+            const code = document.getElementById('codeInput').value;
+            const output = document.getElementById('codeOutput');
+            const status = document.getElementById('codeStatus');
+            
+            if (!code.trim()) {
+                output.textContent = '请输入代码后再运行。';
+                output.classList.add('error');
+                return;
+            }
+            
+            if (!pyodide) {
+                await initPyodide();
+            }
+            
+            output.textContent = '';
+            output.classList.remove('error');
+            status.textContent = '运行中...';
+            
+            try {
+                // Redirect stdout and stderr to output
+                const originalStdout = pyodide.globals.get('sys').stdout;
+                const originalStderr = pyodide.globals.get('sys').stderr;
+                
+                const outputLines = [];
+                
+                pyodide.globals.get('sys').stdout = {
+                    write: function(text) {
+                        outputLines.push(text);
+                    },
+                    flush: function() {}
+                };
+                
+                pyodide.globals.get('sys').stderr = {
+                    write: function(text) {
+                        outputLines.push(text);
+                    },
+                    flush: function() {}
+                };
+                
+                // Run the code
+                await pyodide.runPythonAsync(code);
+                
+                // Restore original stdout/stderr
+                pyodide.globals.get('sys').stdout = originalStdout;
+                pyodide.globals.get('sys').stderr = originalStderr;
+                
+                // Display output
+                output.textContent = outputLines.join('');
+                status.textContent = '运行完成';
+            } catch (error) {
+                output.textContent = error.message;
+                output.classList.add('error');
+                status.textContent = '运行出错';
+            }
+        }
+        
+        // Clear code
+        function clearCode() {
+            document.getElementById('codeInput').value = '';
+            document.getElementById('codeOutput').textContent = '';
+            document.getElementById('codeOutput').classList.remove('error');
+            document.getElementById('codeStatus').textContent = '就绪';
+        }
+        
+        // Initialize Pyodide when page loads
+        window.addEventListener('load', initPyodide);
     </script>
 </body>
 </html>
