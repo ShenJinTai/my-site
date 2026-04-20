@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蔡婷妹 - 个人主页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00f5ff;
+            --secondary: #7b2ff7;
+            --accent: #ff006e;
+            --bg-dark: #0a0a1a;
+            --bg-card: rgba(20, 20, 40, 0.8);
+            --text: #e0e0ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(123, 47, 247, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 245, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 110, 0.1) 0%, transparent 50%);
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px;
+        }
+
+        .avatar-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: rotate 3s linear infinite;
+        }
+
+        .avatar-ring:nth-child(2) {
+            width: 110%;
+            height: 110%;
+            top: -5%;
+            left: -5%;
+            border-top-color: var(--secondary);
+            animation-duration: 4s;
+            animation-direction: reverse;
+        }
+
+        .avatar-ring:nth-child(3) {
+            width: 120%;
+            height: 120%;
+            top: -10%;
+            left: -10%;
+            border-top-color: var(--accent);
+            animation-duration: 5s;
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 40px rgba(0, 245, 255, 0.4);
+        }
+
+        .name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: rgba(224, 224, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .location {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: var(--bg-card);
+            border-radius: 25px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            font-size: 0.95rem;
+        }
+
+        .location::before {
+            content: '📍';
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 12px 30px;
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            color: var(--text);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(123, 47, 247, 0.2));
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(0, 245, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 245, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill-tag {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.15), rgba(123, 47, 247, 0.15));
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.3), rgba(123, 47, 247, 0.3));
+            transform: scale(1.05);
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .achievement-item:last-child {
+            border-bottom: none;
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .achievement-content h4 {
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .achievement-content p {
+            color: rgba(224, 224, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .hobby-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(123, 47, 247, 0.1), rgba(255, 0, 110, 0.1));
+            border-radius: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .hobby-card:hover {
+            transform: translateX(10px);
+            background: linear-gradient(135deg, rgba(123, 47, 247, 0.2), rgba(255, 0, 110, 0.2));
+        }
+
+        .hobby-icon {
+            font-size: 2.5rem;
+        }
+
+        .hobby-info h4 {
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+
+        .hobby-info p {
+            color: rgba(224, 224, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .education-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(0, 245, 255, 0.05);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .education-icon {
+            font-size: 2rem;
+        }
+
+        .education-info h4 {
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+
+        .education-info p {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .contact-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(0, 245, 255, 0.05);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .contact-item:hover {
+            background: rgba(0, 245, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        .contact-icon {
+            font-size: 1.8rem;
+        }
+
+        .contact-text {
+            font-size: 0.95rem;
+        }
+
+        .glitch {
+            position: relative;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            animation: glitch-1 2s infinite linear alternate-reverse;
+            color: var(--primary);
+            z-index: -1;
+        }
+
+        .glitch::after {
+            animation: glitch-2 3s infinite linear alternate-reverse;
+            color: var(--accent);
+            z-index: -2;
+        }
+
+        @keyframes glitch-1 {
+            0%, 100% { clip-path: inset(0 0 95% 0); transform: translate(-2px, 2px); }
+            25% { clip-path: inset(30% 0 50% 0); transform: translate(2px, -2px); }
+            50% { clip-path: inset(60% 0 20% 0); transform: translate(-2px, 1px); }
+            75% { clip-path: inset(80% 0 5% 0); transform: translate(1px, -1px); }
+        }
+
+        @keyframes glitch-2 {
+            0%, 100% { clip-path: inset(95% 0 0 0); transform: translate(2px, -2px); }
+            25% { clip-path: inset(50% 0 30% 0); transform: translate(-2px, 2px); }
+            50% { clip-path: inset(20% 0 60% 0); transform: translate(2px, 1px); }
+            75% { clip-path: inset(5% 0 80% 0); transform: translate(-1px, -2px); }
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(224, 224, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .typing {
+            overflow: hidden;
+            border-right: 2px solid var(--primary);
+            white-space: nowrap;
+            animation: typing 3s steps(20, end), blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        @media (max-width: 768px) {
+            .name {
+                font-size: 2rem;
+            }
+
+            .avatar {
+                width: 120px;
+                height: 120px;
+                font-size: 48px;
+            }
+
+            .avatar-container {
+                width: 150px;
+                height: 150px;
+            }
+
+            nav {
+                gap: 10px;
+            }
+
+            .nav-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <canvas class="matrix-rain" id="matrix"></canvas>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <header>
+            <div class="avatar-container">
+                <div class="avatar-ring"></div>
+                <div class="avatar-ring"></div>
+                <div class="avatar-ring"></div>
+                <div class="avatar">👤</div>
+            </div>
+            <h1 class="name glitch" data-text="蔡婷妹">蔡婷妹</h1>
+            <p class="tagline">数据分析师 & 游戏爱好者</p>
+            <div class="location">广东 · Guangdong</div>
+        </header>
+
+        <nav>
+            <button class="nav-btn active" onclick="showSection('about')">关于我</button>
+            <button class="nav-btn" onclick="showSection('skills')">技能特长</button>
+            <button class="nav-btn" onclick="showSection('achievements')">荣誉成就</button>
+            <button class="nav-btn" onclick="showSection('hobbies')">兴趣爱好</button>
+            <button class="nav-btn" onclick="showSection('contact')">联系方式</button>
+        </nav>
+
+        <main>
+            <section id="about" class="section active">
+                <div class="card">
+                    <h2 class="card-title">个人简介</h2>
+                    <p style="line-height: 1.8; margin-bottom: 20px;">
+                        你好！我是蔡婷妹，来自美丽的广东省。目前就读于广东科学技术职业学院，是一名积极向上的学生。
+                    </p>
+                    <p style="line-height: 1.8; margin-bottom: 20px;">
+                        我对数据分析有着浓厚的兴趣和热情，擅长通过数据发现问题、解决问题。同时，我也是一名游戏爱好者，尤其喜欢《燕云十六声》这类富有文化底蕴的作品。
+                    </p>
+                    <p style="line-height: 1.8;">
+                        作为广东省数据分析技能大师工作室的助手，我始终保持着对技术的敬畏之心，不断学习、不断进步。希望通过自己的努力，在数据领域有所建树。
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title">教育背景</h2>
+                    <div class="education-item">
+                        <div class="education-icon">🎓</div>
+                        <div class="education-info">
+                            <h4>广东科学技术职业学院</h4>
+                            <p>学生 · 在读中</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills" class="section">
+                <div class="card">
+                    <h2 class="card-title">专业技能</h2>
+                    <div class="skill-tags">
+                        <span class="skill-tag">📊 数据分析</span>
+                        <span class="skill-tag">📈 数据可视化</span>
+                        <span class="skill-tag">🔍 数据挖掘</span>
+                        <span class="skill-tag">📉 统计分析</span>
+                        <span class="skill-tag">🛠️ 数据处理</span>
+                        <span class="skill-tag">📋 报告撰写</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title">技术专长</h2>
+                    <div class="skill-tags">
+                        <span class="skill-tag">💻 Excel</span>
+                        <span class="skill-tag">🐍 Python</span>
+                        <span class="skill-tag">📊 Power BI</span>
+                        <span class="skill-tag">🗄️ SQL</span>
+                        <span class="skill-tag">📈 SPSS</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title">工作室职务</h2>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">🏢</div>
+                        <div class="achievement-content">
+                            <h4>广东省数据分析技能大师工作室 助手</h4>
+                            <p>协助工作室日常运营，参与数据分析项目，学习前沿技术</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="achievements" class="section">
+                <div class="card">
+                    <h2 class="card-title">荣誉奖项</h2>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">🏆</div>
+                        <div class="achievement-content">
+                            <h4>广东省技术能手</h4>
+                            <p>荣获广东省技术能手称号，在数据分析领域获得权威认可</p>
+                        </div>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">🥇</div>
+                        <div class="achievement-content">
+                            <h4>全国商贸技术能手</h4>
+                            <p>荣获全国商贸技术能手称号，代表广东省在全国赛事中取得优异成绩</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title">成长足迹</h2>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">📚</div>
+                        <div class="achievement-content">
+                            <h4>专业学习</h4>
+                            <p>系统学习数据分析相关知识，不断提升专业能力</p>
+                        </div>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">🧪</div>
+                        <div class="achievement-content">
+                            <h4>实践锻炼</h4>
+                            <p>积极参与工作室项目，将理论知识应用于实际场景</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="hobbies" class="section">
+                <div class="card">
+                    <h2 class="card-title">我的爱好</h2>
+                    
+                    <div class="hobby-card">
+                        <div class="hobby-icon">🎮</div>
+                        <div class="hobby-info">
+                            <h4>燕云十六声</h4>
+                            <p>喜欢玩燕云十六声，感受游戏中的武侠文化和历史底蕴</p>
+                        </div>
+                    </div>
+
+                    <div class="hobby-card">
+                        <div class="hobby-icon">📊</div>
+                        <div class="hobby-info">
+                            <h4>数据分析</h4>
+                            <p>热爱数据分析，通过数据发现规律、解决问题</p>
+                        </div>
+                    </div>
+
+                    <div class="hobby-card">
+                        <div class="hobby-icon">📚</div>
+                        <div class="hobby-info">
+                            <h4>学习新技术</h4>
+                            <p>保持好奇心，持续学习新的数据分析方法和技术工具</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title">游戏时刻</h2>
+                    <p style="line-height: 1.8; color: rgba(224, 224, 255, 0.8);">
+                        🎮 在游戏中探索世界，在数据中寻找规律。<br>
+                        燕云十六声带我领略武侠的魅力，而数据分析则让我学会用理性的眼光看待世界。两者相辅相成，让我的生活更加丰富多彩！
+                    </p>
+                </div>
+            </section>
+
+            <section id="contact" class="section">
+                <div class="card">
+                    <h2 class="card-title">联系方式</h2>
+                    <div class="contact-links">
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div class="contact-text">等待添加...</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <div class="contact-text">等待添加...</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">💬</div>
+                            <div class="contact-text">等待添加...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title">给我留言</h2>
+                    <p style="color: rgba(224, 224, 255, 0.7); line-height: 1.8;">
+                        如果你有任何问题、合作意向或者只是想打个招呼，欢迎联系我！我会尽快回复你的消息。
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2026 蔡婷妹 · 用 ❤️ 构建 · 广东科学技术职业学院</p>
+            <p style="margin-top: 10px;">
+                <span style="color: var(--primary);">◈</span>
+                <span style="color: var(--secondary);">◈</span>
+                <span style="color: var(--accent);">◈</span>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function createMatrixRain() {
+            const canvas = document.getElementById('matrix');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+            
+            for (let i = 0; i < columns; i++) {
+                drops[i] = 1;
+            }
+            
+            function draw() {
+                ctx.fillStyle = 'rgba(10, 10, 26, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = '#0ff';
+                ctx.font = fontSize + 'px monospace';
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            
+            setInterval(draw, 50);
+        }
+
+        window.addEventListener('resize', () => {
+            const canvas = document.getElementById('matrix');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        createStars();
+        createMatrixRain();
+    </script>
+</body>
+</html>
