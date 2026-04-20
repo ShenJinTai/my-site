@@ -792,6 +792,56 @@
         </div>
     </section>
     
+    <!-- 实操训练模块 -->
+    <section class="practical-training" id="practical-training">
+        <div class="container">
+            <div class="section-title">
+                <h2>实操训练</h2>
+                <p>通过实际操作练习Python代码，巩固所学知识</p>
+            </div>
+            
+            <div class="training-container" style="background-color: var(--card-background); border-radius: 0.75rem; padding: 2.5rem; box-shadow: var(--shadow); border: 1px solid var(--border-color);">
+                <div class="training-header" style="margin-bottom: 2rem;">
+                    <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--primary-color);">Python代码运行器</h3>
+                    <p style="color: var(--light-text);">选择示例代码或输入自己的代码，点击运行按钮查看结果</p>
+                </div>
+                
+                <div class="training-content">
+                    <div class="code-input-section" style="margin-bottom: 1.5rem;">
+                        <label for="codeInput" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">代码编辑区</label>
+                        <textarea id="codeInput" style="width: 100%; min-height: 300px; padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.375rem; font-family: 'Courier New', monospace; font-size: 1rem; line-height: 1.5; resize: vertical;">print('Hello, World!')
+x = 10
+y = 20
+print('x + y =', x + y)</textarea>
+                    </div>
+                    
+                    <div class="training-controls" style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                        <button onclick="runCode()" style="padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; border: none; background-color: var(--primary-color); color: white;">运行代码</button>
+                        <button onclick="clearCode()" style="padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; border: 1px solid var(--border-color); background-color: white; color: var(--text-color);">清空</button>
+                        <button onclick="resetToExample()" style="padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; border: 1px solid var(--border-color); background-color: white; color: var(--text-color);">重置示例</button>
+                        <select onchange="loadExample(this.value)" style="padding: 0.75rem; border-radius: 0.375rem; border: 1px solid var(--border-color); font-size: 1rem; background-color: white; cursor: pointer;">
+                            <option value="basic">基础示例</option>
+                            <option value="variables">变量和数据类型</option>
+                            <option value="operators">运算符</option>
+                            <option value="if">条件语句</option>
+                            <option value="loop">循环语句</option>
+                            <option value="input">输入输出</option>
+                        </select>
+                    </div>
+                    
+                    <div class="code-output-section">
+                        <label for="codeOutput" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">运行结果</label>
+                        <div id="codeOutput" style="background-color: #f3f4f6; border: 1px solid var(--border-color); border-radius: 0.375rem; padding: 1rem; min-height: 150px; font-family: 'Courier New', monospace; font-size: 1rem; white-space: pre-wrap; line-height: 1.5;"></div>
+                    </div>
+                    
+                    <div class="code-status" style="margin-top: 1rem; font-size: 0.875rem; color: var(--light-text); text-align: right;">
+                        <span id="codeStatus">就绪</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <!-- 课程特色 -->
     <section class="course-features" id="features">
         <div class="container">
@@ -968,36 +1018,7 @@
         </div>
     </footer>
 
-    <!-- 实操训练模块 -->
-    <div class="code-runner" id="codeRunner">
-        <div class="code-runner-header" onclick="toggleCodeRunner()">
-            <h3>实操训练</h3>
-            <button class="code-runner-toggle" id="codeRunnerToggle">▼</button>
-        </div>
-        <div class="code-runner-content">
-            <textarea class="code-runner-textarea" id="codeInput" placeholder="请输入Python代码...
-例如:
-print('Hello, World!')
-x = 10
-y = 20
-print(x + y)"></textarea>
-            <div class="code-runner-controls">
-                <button class="code-runner-btn run" onclick="runCode()">运行代码</button>
-                <button class="code-runner-btn clear" onclick="clearCode()">清空</button>
-                <button class="code-runner-btn clear" onclick="resetToExample()">重置示例</button>
-                <select class="code-runner-select" onchange="loadExample(this.value)">
-                    <option value="basic">基础示例</option>
-                    <option value="variables">变量和数据类型</option>
-                    <option value="operators">运算符</option>
-                    <option value="if">条件语句</option>
-                    <option value="loop">循环语句</option>
-                    <option value="input">输入输出</option>
-                </select>
-            </div>
-            <div class="code-runner-output" id="codeOutput"></div>
-            <div class="code-runner-status" id="codeStatus">就绪</div>
-        </div>
-    </div>
+
     
     <!-- Pyodide CDN -->
     <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
@@ -1039,9 +1060,8 @@ print(x + y)"></textarea>
             }
         });
         
-        // Code Runner Functionality
+        // 实操训练模块功能
         let pyodide;
-        let codeRunnerCollapsed = false;
         
         // Initialize Pyodide
         async function initPyodide() {
@@ -1055,22 +1075,9 @@ print(x + y)"></textarea>
                 console.error('Pyodide initialization error:', error);
                 document.getElementById('codeStatus').textContent = '加载失败';
                 document.getElementById('codeOutput').textContent = 'Python环境加载失败，请刷新页面重试。';
-                document.getElementById('codeOutput').classList.add('error');
-            }
-        }
-        
-        // Toggle code runner
-        function toggleCodeRunner() {
-            const codeRunner = document.getElementById('codeRunner');
-            const toggleBtn = document.getElementById('codeRunnerToggle');
-            codeRunnerCollapsed = !codeRunnerCollapsed;
-            
-            if (codeRunnerCollapsed) {
-                codeRunner.classList.add('collapsed');
-                toggleBtn.textContent = '▶';
-            } else {
-                codeRunner.classList.remove('collapsed');
-                toggleBtn.textContent = '▼';
+                document.getElementById('codeOutput').style.backgroundColor = '#fee2e2';
+                document.getElementById('codeOutput').style.borderColor = '#fecaca';
+                document.getElementById('codeOutput').style.color = '#dc2626';
             }
         }
         
@@ -1082,7 +1089,9 @@ print(x + y)"></textarea>
             
             if (!code.trim()) {
                 output.textContent = '请输入代码后再运行。';
-                output.classList.add('error');
+                output.style.backgroundColor = '#fee2e2';
+                output.style.borderColor = '#fecaca';
+                output.style.color = '#dc2626';
                 return;
             }
             
@@ -1091,7 +1100,9 @@ print(x + y)"></textarea>
             }
             
             output.textContent = '';
-            output.classList.remove('error');
+            output.style.backgroundColor = '#f3f4f6';
+            output.style.borderColor = '#e5e7eb';
+            output.style.color = '#374151';
             status.textContent = '运行中...';
             
             try {
@@ -1127,7 +1138,9 @@ print(x + y)"></textarea>
                 status.textContent = '运行完成';
             } catch (error) {
                 output.textContent = error.message;
-                output.classList.add('error');
+                output.style.backgroundColor = '#fee2e2';
+                output.style.borderColor = '#fecaca';
+                output.style.color = '#dc2626';
                 status.textContent = '运行出错';
             }
         }
@@ -1136,15 +1149,19 @@ print(x + y)"></textarea>
         function clearCode() {
             document.getElementById('codeInput').value = '';
             document.getElementById('codeOutput').textContent = '';
-            document.getElementById('codeOutput').classList.remove('error');
+            document.getElementById('codeOutput').style.backgroundColor = '#f3f4f6';
+            document.getElementById('codeOutput').style.borderColor = '#e5e7eb';
+            document.getElementById('codeOutput').style.color = '#374151';
             document.getElementById('codeStatus').textContent = '就绪';
         }
         
         // Reset to example code
         function resetToExample() {
-            document.getElementById('codeInput').value = "print('Hello, World!')\nx = 10\ny = 20\nprint(x + y)";
+            document.getElementById('codeInput').value = "print('Hello, World!')\nx = 10\ny = 20\nprint('x + y =', x + y)";
             document.getElementById('codeOutput').textContent = '';
-            document.getElementById('codeOutput').classList.remove('error');
+            document.getElementById('codeOutput').style.backgroundColor = '#f3f4f6';
+            document.getElementById('codeOutput').style.borderColor = '#e5e7eb';
+            document.getElementById('codeOutput').style.color = '#374151';
             document.getElementById('codeStatus').textContent = '就绪';
         }
         
@@ -1173,7 +1190,9 @@ print(x + y)"></textarea>
             }
             document.getElementById('codeInput').value = code;
             document.getElementById('codeOutput').textContent = '';
-            document.getElementById('codeOutput').classList.remove('error');
+            document.getElementById('codeOutput').style.backgroundColor = '#f3f4f6';
+            document.getElementById('codeOutput').style.borderColor = '#e5e7eb';
+            document.getElementById('codeOutput').style.color = '#374151';
             document.getElementById('codeStatus').textContent = '就绪';
         }
         
