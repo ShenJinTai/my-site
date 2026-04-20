@@ -125,6 +125,15 @@
             transform: translateY(-2px);
         }
         
+        .code-runner-select {
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            background-color: white;
+            cursor: pointer;
+        }
+        
         .code-runner-output {
             background-color: #f3f4f6;
             border: 1px solid var(--border-color);
@@ -1088,10 +1097,10 @@ print(<span class="code-string">"%d / %d = %.2f"</span> % (x, y, x / y))</pre>
         </div>
     </footer>
     
-    <!-- Code Runner Component -->
+    <!-- 实操训练模块 -->
     <div class="code-runner" id="codeRunner">
         <div class="code-runner-header" onclick="toggleCodeRunner()">
-            <h3>Python代码运行器</h3>
+            <h3>实操训练</h3>
             <button class="code-runner-toggle" id="codeRunnerToggle">▼</button>
         </div>
         <div class="code-runner-content">
@@ -1105,6 +1114,14 @@ print(x + y)"></textarea>
                 <button class="code-runner-btn run" onclick="runCode()">运行代码</button>
                 <button class="code-runner-btn clear" onclick="clearCode()">清空</button>
                 <button class="code-runner-btn clear" onclick="resetToExample()">重置示例</button>
+                <select class="code-runner-select" onchange="loadExample(this.value)">
+                    <option value="basic">基础示例</option>
+                    <option value="variables">变量和数据类型</option>
+                    <option value="operators">运算符</option>
+                    <option value="if">条件语句</option>
+                    <option value="loop">循环语句</option>
+                    <option value="input">输入输出</option>
+                </select>
             </div>
             <div class="code-runner-output" id="codeOutput"></div>
             <div class="code-runner-status" id="codeStatus">就绪</div>
@@ -1229,6 +1246,35 @@ print(x + y)"></textarea>
         // Reset to example code
         function resetToExample() {
             document.getElementById('codeInput').value = "print('Hello, World!')\nx = 10\ny = 20\nprint(x + y)";
+            document.getElementById('codeOutput').textContent = '';
+            document.getElementById('codeOutput').classList.remove('error');
+            document.getElementById('codeStatus').textContent = '就绪';
+        }
+        
+        // Load example code
+        function loadExample(exampleType) {
+            let code = '';
+            switch(exampleType) {
+                case 'basic':
+                    code = "print('Hello, World!')\nx = 10\ny = 20\nprint('x + y =', x + y)";
+                    break;
+                case 'variables':
+                    code = "# 变量和数据类型示例\nname = 'Alice'  # 字符串\nage = 25  # 整数\nheight = 1.65  # 浮点数\nis_student = True  # 布尔值\n\nprint('姓名:', name)\nprint('年龄:', age)\nprint('身高:', height)\nprint('是否学生:', is_student)";
+                    break;
+                case 'operators':
+                    code = "# 运算符示例\nx = 10\ny = 3\n\nprint('x + y =', x + y)\nprint('x - y =', x - y)\nprint('x * y =', x * y)\nprint('x / y =', x / y)\nprint('x // y =', x // y)\nprint('x % y =', x % y)\nprint('x ** y =', x ** y)";
+                    break;
+                case 'if':
+                    code = "# 条件语句示例\nage = 18\n\nif age < 18:\n    print('未成年')\nelif age >= 18 and age < 60:\n    print('成年人')\nelse:\n    print('老年人')";
+                    break;
+                case 'loop':
+                    code = "# 循环语句示例\n# for循环\nprint('for循环:')\nfor i in range(5):\n    print(i)\n\n# while循环\nprint('\nwhile循环:')\ncount = 0\nwhile count < 5:\n    print(count)\n    count += 1";
+                    break;
+                case 'input':
+                    code = "# 输入输出示例\nname = input('请输入你的名字: ' )\nage = int(input('请输入你的年龄: '))\n\nprint(f'你好，{name}！你今年{age}岁。')\nprint('明年你将', age + 1, '岁。')";
+                    break;
+            }
+            document.getElementById('codeInput').value = code;
             document.getElementById('codeOutput').textContent = '';
             document.getElementById('codeOutput').classList.remove('error');
             document.getElementById('codeStatus').textContent = '就绪';
