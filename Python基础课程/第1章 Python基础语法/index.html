@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第1章：Python基础语法 | Python基础课程</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap');
+        
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #1e40af;
+            --accent-color: #60a5fa;
+            --text-color: #374151;
+            --light-text: #6b7280;
+            --background-color: #f9fafb;
+            --card-background: #ffffff;
+            --border-color: #e5e7eb;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Code Runner Component */
+        .code-runner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 400px;
+            max-width: 90vw;
+            background-color: var(--card-background);
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            z-index: 1000;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .code-runner.collapsed {
+            height: 50px;
+        }
+        
+        .code-runner-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .code-runner-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .code-runner-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .code-runner-content {
+            padding: 1rem;
+        }
+        
+        .code-runner-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            resize: vertical;
+            margin-bottom: 0.75rem;
+        }
+        
+        .code-runner-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .code-runner-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .code-runner-btn.run {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .code-runner-btn.clear {
+            background-color: var(--border-color);
+            color: var(--text-color);
+        }
+        
+        .code-runner-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .code-runner-output {
+            background-color: #f3f4f6;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            padding: 0.75rem;
+            min-height: 100px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+        
+        .code-runner-output.error {
+            background-color: #fee2e2;
+            border-color: #fecaca;
+            color: #dc2626;
+        }
+        
+        .code-runner-status {
+            font-size: 0.875rem;
+            color: var(--light-text);
+            margin-top: 0.5rem;
+            text-align: right;
+        }
+        
+        @media (max-width: 768px) {
+            .code-runner {
+                width: 95vw;
+                bottom: 10px;
+                right: 10px;
+            }
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            background-color: var(--card-background);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            background-color: transparent;
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        /* 章节头部 */
+        .chapter-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .chapter-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .chapter-header p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* 章节内容 */
+        .chapter-content {
+            padding: 4rem 0;
+        }
+        
+        .section {
+            background-color: var(--card-background);
+            border-radius: 0.75rem;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            font-family: 'Noto Serif SC', serif;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+        
+        .section-subtitle {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem;
+            color: var(--text-color);
+        }
+        
+        .content-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            color: var(--text-color);
+        }
+        
+        .content-text p {
+            margin-bottom: 1rem;
+        }
+        
+        .content-text ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .content-text li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 代码块 */
+        .code-block {
+            background-color: #1e293b;
+            color: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .code-block pre {
+            margin: 0;
+        }
+        
+        .code-comment {
+            color: #94a3b8;
+        }
+        
+        .code-keyword {
+            color: #f472b6;
+        }
+        
+        .code-string {
+            color: #86efac;
+        }
+        
+        .code-number {
+            color: #fcd34d;
+        }
+        
+        /* 练习区域 */
+        .exercise {
+            background-color: #fefce8;
+            border: 1px solid #fde68a;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .exercise h4 {
+            color: #92400e;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+        
+        .exercise p {
+            margin-bottom: 1rem;
+        }
+        
+        .exercise ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        /* 提示区域 */
+        .tip {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .tip h4 {
+            color: #1e40af;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+        
+        .tip p {
+            margin-bottom: 1rem;
+        }
+        
+        /* 导航按钮 */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+        }
+        
+        .nav-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn.prev {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+        
+        .nav-btn.next {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* 页脚 */
+        .footer {
+            background-color: #1f2937;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .footer p {
+            color: #d1d5db;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .chapter-header h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">Python基础课程</a>
+            <ul class="nav-links">
+                <li><a href="../index.html#home">首页</a></li>
+                <li><a href="../index.html#course-content">课程内容</a></li>
+                <li><a href="../index.html#features">课程特色</a></li>
+                <li><a href="../index.html#instructor">讲师介绍</a></li>
+                <li><a href="../index.html#faq">常见问题</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="btn btn-outline">登录</a>
+                <a href="#" class="btn btn-primary">立即报名</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 章节头部 -->
+    <section class="chapter-header">
+        <div class="container">
+            <h1>第1章：Python基础语法</h1>
+            <p>从零开始学习Python的基本概念和语法规则，为后续学习打下坚实基础</p>
+        </div>
+    </section>
+    
+    <!-- 章节内容 -->
+    <section class="chapter-content">
+        <div class="container">
+            <!-- 1.1 Python简介与环境搭建 -->
+            <div class="section">
+                <h2 class="section-title">1.1 Python简介与环境搭建</h2>
+                
+                <div class="content-text">
+                    <p>Python是一种简单易学、功能强大的编程语言，它被广泛应用于Web开发、数据分析、人工智能、科学计算等领域。Python的设计哲学强调代码的可读性和简洁性，使得它成为初学者的理想选择。</p>
+                    
+                    <h3 class="section-subtitle">Python的特点</h3>
+                    <ul>
+                        <li><strong>简单易学</strong>：Python语法清晰简洁，代码可读性高，适合初学者</li>
+                        <li><strong>功能强大</strong>：拥有丰富的标准库和第三方库，可用于各种领域的开发</li>
+                        <li><strong>跨平台</strong>：可以在Windows、Mac、Linux等多种操作系统上运行</li>
+                        <li><strong>面向对象</strong>：支持面向对象编程，也支持过程式编程</li>
+                        <li><strong>解释型</strong>：无需编译，直接运行，开发效率高</li>
+                    </ul>
+                    
+                    <h3 class="section-subtitle">环境搭建步骤</h3>
+                    <p>要开始学习Python，首先需要在你的电脑上安装Python环境。以下是详细的安装步骤：</p>
+                    
+                    <h4>步骤1：下载Python安装包</h4>
+                    <p>访问Python官方网站 <a href="https://www.python.org/" target="_blank">https://www.python.org/</a>，在首页找到"Downloads"部分，选择适合你操作系统的Python版本（建议选择最新的稳定版）。</p>
+                    
+                    <h4>步骤2：安装Python</h4>
+                    <ul>
+                        <li><strong>Windows系统</strong>：运行下载的安装程序，记得勾选"Add Python to PATH"选项，然后点击"Install Now"。</li>
+                        <li><strong>Mac系统</strong>：运行下载的.pkg文件，按照提示完成安装。</li>
+                        <li><strong>Linux系统</strong>：大多数Linux发行版已经预装了Python，可以通过终端运行 <code>python3 --version</code> 检查版本。如果需要安装或更新，可以使用包管理器（如apt、yum等）。</li>
+                    </ul>
+                    
+                    <h4>步骤3：验证安装</h4>
+                    <p>安装完成后，打开命令提示符（Windows）或终端（Mac/Linux），输入以下命令验证Python是否安装成功：</p>
+                    
+                    <div class="code-block">
+                        <pre>python --version  # Windows系统
+python3 --version  # Mac/Linux系统</pre>
+                    </div>
+                    
+                    <p>如果显示Python的版本号，说明安装成功！</p>
+                    
+                    <h4>步骤4：安装代码编辑器</h4>
+                    <p>虽然可以使用系统自带的文本编辑器编写Python代码，但推荐使用专门的代码编辑器，如：</p>
+                    <ul>
+                        <li><strong>Visual Studio Code</strong>：免费、轻量、功能强大，支持多种编程语言</li>
+                        <li><strong>PyCharm</strong>：专为Python开发设计的IDE，有社区版（免费）和专业版</li>
+                        <li><strong>Sublime Text</strong>：轻量、快速的文本编辑器</li>
+                    </ul>
+                    
+                    <div class="tip">
+                        <h4>💡 小贴士</h4>
+                        <p>对于初学者，推荐使用Visual Studio Code，它不仅免费，而且有丰富的扩展插件，可以提供代码补全、语法高亮等功能，大大提高编程效率。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 1.2 变量和数据类型 -->
+            <div class="section">
+                <h2 class="section-title">1.2 变量和数据类型</h2>
+                
+                <div class="content-text">
+                    <p>在Python中，变量是用来存储数据的容器。与其他编程语言不同，Python不需要声明变量的类型，它会根据你赋给变量的值自动推断类型。</p>
+                    
+                    <h3 class="section-subtitle">变量的定义</h3>
+                    <p>在Python中，定义变量非常简单，只需要给变量起一个名字，然后用等号（=）赋值即可：</p>
+                    
+                    <div class="code-block">
+                        <pre><span class="code-comment"># 定义变量</span>
+name = <span class="code-string">"Alice"</span>  <span class="code-comment"># 字符串变量</span>
+age = 25  <span class="code-comment"># 整数变量</span>
+height = 1.65  <span class="code-comment"># 浮点数变量</span>
+is_student = True  <span class="code-comment"># 布尔变量</span></pre>
+                    </div>
+                    
+                    <p>变量命名规则：</p>
+                    <ul>
+                        <li>变量名只能包含字母、数字和下划线</li>
+                        <li>变量名不能以数字开头</li>
+                        <li>变量名区分大小写</li>
+                        <li>不能使用Python的关键字作为变量名（如if、else、for等）</li>
+                    </ul>
+                    
+                    <h3 class="section-subtitle">常见数据类型</h3>
+                    <p>Python中有几种基本的数据类型：</p>
+                    
+                    <h4>1. 整数（int）</h4>
+                    <p>用于表示整数，如：</p>
+                    <div class="code-block">
+                        <pre>age = 25
+number = -10
+large_number = 1000000</pre>
+                    </div>
+                    
+                    <h4>2. 浮点数（float）</h4>
+                    <p>用于表示小数，如：</p>
+                    <div class="code-block">
+                        <pre>height = 1.65
+temperature = 37.5
+pi = 3.14159</pre>
+                    </div>
+                    
+                    <h4>3. 字符串（str）</h4>
+                    <p>用于表示文本，用单引号或双引号包围，如：</p>
+                    <div class="code-block">
+                        <pre>name = <span class="code-string">"Alice"</span>
+greeting = <span class="code-string">'Hello, world!' </span>
+multiline = <span class="code-string">"""这是一个
+多行字符串"""</span></pre>
+                    </div>
+                    
+                    <h4>4. 布尔值（bool）</h4>
+                    <p>用于表示真或假，只有两个值：True和False，如：</p>
+                    <div class="code-block">
+                        <pre>is_student = True
+is_teacher = False</pre>
+                    </div>
+                    
+                    <h3 class="section-subtitle">类型转换</h3>
+                    <p>在Python中，可以使用内置函数进行类型转换：</p>
+                    
+                    <div class="code-block">
+                        <pre><span class="code-comment"># 转换为整数</span>
+num_str = <span class="code-string">"123"</span>
+num_int = int(num_str)
+print(num_int)  <span class="code-comment"># 输出: 123</span>
+
+<span class="code-comment"># 转换为浮点数</span>
+num_int = 123
+num_float = float(num_int)
+print(num_float)  <span class="code-comment"># 输出: 123.0</span>
+
+<span class="code-comment"># 转换为字符串</span>
+num = 123
+num_str = str(num)
+print(num_str)  <span class="code-comment"># 输出: "123"</span></pre>
+                    </div>
+                    
+                    <div class="exercise">
+                        <h4>🔍 练习</h4>
+                        <p>1. 定义三个变量：姓名（字符串）、年龄（整数）、身高（浮点数），并输出这些变量的值。</p>
+                        <p>2. 将一个整数转换为字符串，将一个字符串转换为浮点数，然后输出结果。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 1.3 运算符和表达式 -->
+            <div class="section">
+                <h2 class="section-title">1.3 运算符和表达式</h2>
+                
+                <div class="content-text">
+                    <p>运算符是用于执行操作的特殊符号，表达式是由运算符和操作数组成的式子。Python支持多种类型的运算符：</p>
+                    
+                    <h3 class="section-subtitle">算术运算符</h3>
+                    <p>用于执行基本的数学运算：</p>
+                    
+                    <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                        <tr style="background-color: #f3f4f6;">
+                            <th style="padding: 0.75rem; border: 1px solid #e5e7eb;">运算符</th>
+                            <th style="padding: 0.75rem; border: 1px solid #e5e7eb;">描述</th>
+                            <th style="padding: 0.75rem; border: 1px solid #e5e7eb;">示例</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">+</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">加法</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">2 + 3 = 5</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">-</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">减法</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">5 - 2 = 3</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">*</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">乘法</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">2 * 3 = 6</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">/</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">除法</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">6 / 2 = 3.0</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">//</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">整除</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">7 // 2 = 3</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">%</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">取模</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">7 % 2 = 1</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">**</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">幂运算</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">2 ** 3 = 8</td>
+                        </tr>
+                    </table>
+                    
+                    <h3 class="section-subtitle">比较运算符</h3>
+                    <p>用于比较两个值：</p>
+                    
+                    <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                        <tr style="background-color: #f3f4f6;">
+                            <th style="padding: 0.75rem; border: 1px solid #e5e7eb;">运算符</th>
+                            <th style="padding: 0.75rem; border: 1px solid #e5e7eb;">描述</th>
+                            <th style="padding: 0.75rem; border: 1px solid #e5e7eb;">示例</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">==</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">等于</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">2 == 2 → True</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">!=</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">不等于</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">2 != 3 → True</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">&gt;</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">大于</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">3 &gt; 2 → True</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">&lt;</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">小于</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">2 &lt; 3 → True</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">&gt;=</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">大于等于</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">3 &gt;= 3 → True</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">&lt;=</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">小于等于</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">2 &lt;= 3 → True</td>
+                        </tr>
+                    </table>
+                    
+                    <h3 class="section-subtitle">逻辑运算符</h3>
+                    <p>用于组合条件：</p>
+                    
+                    <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                        <tr style="background-color: #f3f4f6;">
+                            <th style="padding: 0.75rem; border: 1px solid #e5e7eb;">运算符</th>
+                            <th style="padding: 0.75rem; border: 1px solid #e5e7eb;">描述</th>
+                            <th style="padding: 0.75rem; border: 1px solid #e5e7eb;">示例</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">and</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">与运算</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">True and False → False</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">or</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">或运算</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">True or False → True</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">not</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">非运算</td>
+                            <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">not True → False</td>
+                        </tr>
+                    </table>
+                    
+                    <h3 class="section-subtitle">赋值运算符</h3>
+                    <p>用于给变量赋值：</p>
+                    
+                    <div class="code-block">
+                        <pre><span class="code-comment"># 基本赋值</span>
+x = 5
+
+<span class="code-comment"># 复合赋值</span>
+x += 3  <span class="code-comment"># 等同于 x = x + 3</span>
+x -= 2  <span class="code-comment"># 等同于 x = x - 2</span>
+x *= 4  <span class="code-comment"># 等同于 x = x * 4</span>
+x /= 2  <span class="code-comment"># 等同于 x = x / 2</span></pre>
+                    </div>
+                    
+                    <div class="exercise">
+                        <h4>🔍 练习</h4>
+                        <p>1. 计算并输出 10 + 5 * 3 - 8 / 2 的结果。</p>
+                        <p>2. 使用比较运算符比较 10 和 5 的大小，并输出结果。</p>
+                        <p>3. 使用逻辑运算符判断 5 > 3 and 10 < 20 的结果，并输出。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 1.4 控制流程（条件语句和循环） -->
+            <div class="section">
+                <h2 class="section-title">1.4 控制流程（条件语句和循环）</h2>
+                
+                <div class="content-text">
+                    <p>控制流程语句用于控制程序的执行顺序，包括条件语句和循环语句。</p>
+                    
+                    <h3 class="section-subtitle">条件语句</h3>
+                    <p>条件语句用于根据条件执行不同的代码块。Python中使用 <code>if</code>、<code>elif</code> 和 <code>else</code> 关键字：</p>
+                    
+                    <div class="code-block">
+                        <pre><span class="code-keyword">if</span> 条件1:
+    <span class="code-comment"># 条件1为真时执行的代码</span>
+    代码块1
+<span class="code-keyword">elif</span> 条件2:
+    <span class="code-comment"># 条件1为假，条件2为真时执行的代码</span>
+    代码块2
+<span class="code-keyword">else</span>:
+    <span class="code-comment"># 所有条件都为假时执行的代码</span>
+    代码块3</pre>
+                    </div>
+                    
+                    <p>示例：</p>
+                    
+                    <div class="code-block">
+                        <pre>age = 18
+
+<span class="code-keyword">if</span> age < 18:
+    print(<span class="code-string">"未成年"</span>)
+<span class="code-keyword">elif</span> age >= 18 <span class="code-keyword">and</span> age < 60:
+    print(<span class="code-string">"成年人"</span>)
+<span class="code-keyword">else</span>:
+    print(<span class="code-string">"老年人"</span>)</pre>
+                    </div>
+                    
+                    <h3 class="section-subtitle">循环语句</h3>
+                    <p>循环语句用于重复执行代码块。Python中有两种循环：<code>for</code> 循环和 <code>while</code> 循环。</p>
+                    
+                    <h4>1. for 循环</h4>
+                    <p>用于遍历序列（如列表、元组、字符串）中的元素：</p>
+                    
+                    <div class="code-block">
+                        <pre><span class="code-keyword">for</span> 变量 <span class="code-keyword">in</span> 序列:
+    <span class="code-comment"># 对序列中的每个元素执行的代码</span>
+    代码块</pre>
+                    </div>
+                    
+                    <p>示例：</p>
+                    
+                    <div class="code-block">
+                        <pre><span class="code-comment"># 遍历列表</span>
+fruits = [<span class="code-string">"apple"</span>, <span class="code-string">"banana"</span>, <span class="code-string">"orange"</span>]
+<span class="code-keyword">for</span> fruit <span class="code-keyword">in</span> fruits:
+    print(fruit)
+
+<span class="code-comment"># 遍历字符串</span> 
+word = <span class="code-string">"Python"</span>
+<span class="code-keyword">for</span> letter <span class="code-keyword">in</span> word:
+    print(letter)
+
+<span class="code-comment"># 使用 range() 函数</span>
+<span class="code-keyword">for</span> i <span class="code-keyword">in</span> range(5):
+    print(i)  <span class="code-comment"># 输出: 0, 1, 2, 3, 4</span></pre>
+                    </div>
+                    
+                    <h4>2. while 循环</h4>
+                    <p>只要条件为真，就重复执行代码块：</p>
+                    
+                    <div class="code-block">
+                        <pre><span class="code-keyword">while</span> 条件:
+    <span class="code-comment"># 条件为真时执行的代码</span>
+    代码块</pre>
+                    </div>
+                    
+                    <p>示例：</p>
+                    
+                    <div class="code-block">
+                        <pre>count = 0
+<span class="code-keyword">while</span> count < 5:
+    print(count)
+    count += 1  <span class="code-comment"># 不要忘记更新计数器，否则会进入无限循环</span></pre>
+                    </div>
+                    
+                    <h3 class="section-subtitle">循环控制语句</h3>
+                    <p>Python提供了两个循环控制语句：</p>
+                    
+                    <h4>1. break 语句</h4>
+                    <p>用于跳出当前循环：</p>
+                    
+                    <div class="code-block">
+                        <pre><span class="code-keyword">for</span> i <span class="code-keyword">in</span> range(10):
+    <span class="code-keyword">if</span> i == 5:
+        <span class="code-keyword">break</span>  <span class="code-comment"># 当i等于5时跳出循环</span>
+    print(i)  <span class="code-comment"># 输出: 0, 1, 2, 3, 4</span></pre>
+                    </div>
+                    
+                    <h4>2. continue 语句</h4>
+                    <p>用于跳过当前循环的剩余部分，继续下一次循环：</p>
+                    
+                    <div class="code-block">
+                        <pre><span class="code-keyword">for</span> i <span class="code-keyword">in</span> range(10):
+    <span class="code-keyword">if</span> i % 2 == 0:
+        <span class="code-keyword">continue</span>  <span class="code-comment"># 跳过偶数</span>
+    print(i)  <span class="code-comment"># 输出: 1, 3, 5, 7, 9</span></pre>
+                    </div>
+                    
+                    <div class="exercise">
+                        <h4>🔍 练习</h4>
+                        <p>1. 使用 if-elif-else 语句判断一个数字是正数、负数还是零。</p>
+                        <p>2. 使用 for 循环计算 1 到 100 的和。</p>
+                        <p>3. 使用 while 循环输出 10 到 1 的数字。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 1.5 输入输出操作 -->
+            <div class="section">
+                <h2 class="section-title">1.5 输入输出操作</h2>
+                
+                <div class="content-text">
+                    <p>在Python中，我们可以使用 <code>print()</code> 函数输出信息，使用 <code>input()</code> 函数获取用户输入。</p>
+                    
+                    <h3 class="section-subtitle">输出操作</h3>
+                    <p><code>print()</code> 函数用于将信息输出到控制台：</p>
+                    
+                    <div class="code-block">
+                        <pre><span class="code-comment"># 输出字符串</span>
+print(<span class="code-string">"Hello, world!"</span>)
+
+<span class="code-comment"># 输出变量</span>
+name = <span class="code-string">"Alice"</span>
+print(name)
+
+<span class="code-comment"># 输出多个值</span>
+age = 25
+print(<span class="code-string">"Name:"</span>, name, <span class="code-string">"Age:"</span>, age)
+
+<span class="code-comment"># 使用格式化字符串</span>
+print(f<span class="code-string">"Name: {name}, Age: {age}"</span>)  <span class="code-comment"># Python 3.6+</span>
+print(<span class="code-string">"Name: {}, Age: {}"</span>.format(name, age))  <span class="code-comment"># 兼容所有版本</span></pre>
+                    </div>
+                    
+                    <h3 class="section-subtitle">输入操作</h3>
+                    <p><code>input()</code> 函数用于获取用户从键盘输入的信息：</p>
+                    
+                    <div class="code-block">
+                        <pre><span class="code-comment"># 获取字符串输入</span>
+name = input(<span class="code-string">"请输入你的名字："</span>)
+print(f<span class="code-string">"你好，{name}！"</span>)
+
+<span class="code-comment"># 获取数字输入（需要类型转换）</span>
+age = int(input(<span class="code-string">"请输入你的年龄："</span>))
+print(f<span class="code-string">"你今年{age}岁。"</span>)</pre>
+                    </div>
+                    
+                    <div class="tip">
+                        <h4>💡 小贴士</h4>
+                        <p><code>input()</code> 函数总是返回字符串类型，如果需要数字，必须使用 <code>int()</code> 或 <code>float()</code> 进行类型转换。</p>
+                    </div>
+                    
+                    <h3 class="section-subtitle">格式化输出</h3>
+                    <p>Python提供了多种格式化输出的方式：</p>
+                    
+                    <div class="code-block">
+                        <pre><span class="code-comment"># 1. 格式化字符串（f-string，Python 3.6+）</span>
+x = 10
+y = 3
+print(f<span class="code-string">"{x} + {y} = {x + y}"</span>)
+print(f<span class="code-string">"{x} / {y} = {x / y:.2f}"</span>)  <span class="code-comment"># 保留两位小数</span>
+
+<span class="code-comment"># 2. format() 方法</span>
+print(<span class="code-string">"{} + {} = {}"</span>.format(x, y, x + y))
+print(<span class="code-string">"{} / {} = {:.2f}"</span>.format(x, y, x / y))
+
+<span class="code-comment"># 3. 旧式格式化（不推荐）</span>
+print(<span class="code-string">"%d + %d = %d"</span> % (x, y, x + y))
+print(<span class="code-string">"%d / %d = %.2f"</span> % (x, y, x / y))</pre>
+                    </div>
+                    
+                    <div class="exercise">
+                        <h4>🔍 练习</h4>
+                        <p>1. 编写一个程序，输入你的名字和年龄，然后输出 "你好，XXX！你今年XX岁。"。</p>
+                        <p>2. 编写一个程序，输入两个数字，计算它们的和、差、积、商，并格式化输出结果。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 导航按钮 -->
+            <div class="navigation-buttons">
+                <a href="../index.html" class="nav-btn prev">返回课程首页</a>
+                <a href="#" class="nav-btn next">下一章：数据结构 →</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>© 2026 Python基础课程. 保留所有权利。</p>
+                <div class="footer-links">
+                    <a href="../index.html">课程首页</a>
+                    <a href="../index.html#faq">常见问题</a>
+                    <a href="#">联系我们</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Code Runner Component -->
+    <div class="code-runner" id="codeRunner">
+        <div class="code-runner-header" onclick="toggleCodeRunner()">
+            <h3>Python代码运行器</h3>
+            <button class="code-runner-toggle" id="codeRunnerToggle">▼</button>
+        </div>
+        <div class="code-runner-content">
+            <textarea class="code-runner-textarea" id="codeInput" placeholder="请输入Python代码...
+例如:
+print('Hello, World!')
+x = 10
+y = 20
+print(x + y)"></textarea>
+            <div class="code-runner-controls">
+                <button class="code-runner-btn run" onclick="runCode()">运行代码</button>
+                <button class="code-runner-btn clear" onclick="clearCode()">清空</button>
+                <button class="code-runner-btn clear" onclick="resetToExample()">重置示例</button>
+            </div>
+            <div class="code-runner-output" id="codeOutput"></div>
+            <div class="code-runner-status" id="codeStatus">就绪</div>
+        </div>
+    </div>
+    
+    <!-- Pyodide CDN -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+            } else {
+                navbar.style.boxShadow = 'none';
+            }
+        });
+        
+        // Code Runner Functionality
+        let pyodide;
+        let codeRunnerCollapsed = false;
+        
+        // Initialize Pyodide
+        async function initPyodide() {
+            try {
+                document.getElementById('codeStatus').textContent = '正在加载Python环境...';
+                pyodide = await loadPyodide({
+                    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/"
+                });
+                document.getElementById('codeStatus').textContent = '就绪';
+            } catch (error) {
+                console.error('Pyodide initialization error:', error);
+                document.getElementById('codeStatus').textContent = '加载失败';
+                document.getElementById('codeOutput').textContent = 'Python环境加载失败，请刷新页面重试。';
+                document.getElementById('codeOutput').classList.add('error');
+            }
+        }
+        
+        // Toggle code runner
+        function toggleCodeRunner() {
+            const codeRunner = document.getElementById('codeRunner');
+            const toggleBtn = document.getElementById('codeRunnerToggle');
+            codeRunnerCollapsed = !codeRunnerCollapsed;
+            
+            if (codeRunnerCollapsed) {
+                codeRunner.classList.add('collapsed');
+                toggleBtn.textContent = '▶';
+            } else {
+                codeRunner.classList.remove('collapsed');
+                toggleBtn.textContent = '▼';
+            }
+        }
+        
+        // Run code
+        async function runCode() {
+            const code = document.getElementById('codeInput').value;
+            const output = document.getElementById('codeOutput');
+            const status = document.getElementById('codeStatus');
+            
+            if (!code.trim()) {
+                output.textContent = '请输入代码后再运行。';
+                output.classList.add('error');
+                return;
+            }
+            
+            if (!pyodide) {
+                await initPyodide();
+            }
+            
+            output.textContent = '';
+            output.classList.remove('error');
+            status.textContent = '运行中...';
+            
+            try {
+                // Redirect stdout and stderr to output
+                const originalStdout = pyodide.globals.get('sys').stdout;
+                const originalStderr = pyodide.globals.get('sys').stderr;
+                
+                const outputLines = [];
+                
+                pyodide.globals.get('sys').stdout = {
+                    write: function(text) {
+                        outputLines.push(text);
+                    },
+                    flush: function() {}
+                };
+                
+                pyodide.globals.get('sys').stderr = {
+                    write: function(text) {
+                        outputLines.push(text);
+                    },
+                    flush: function() {}
+                };
+                
+                // Run the code
+                await pyodide.runPythonAsync(code);
+                
+                // Restore original stdout/stderr
+                pyodide.globals.get('sys').stdout = originalStdout;
+                pyodide.globals.get('sys').stderr = originalStderr;
+                
+                // Display output
+                output.textContent = outputLines.join('');
+                status.textContent = '运行完成';
+            } catch (error) {
+                output.textContent = error.message;
+                output.classList.add('error');
+                status.textContent = '运行出错';
+            }
+        }
+        
+        // Clear code
+        function clearCode() {
+            document.getElementById('codeInput').value = '';
+            document.getElementById('codeOutput').textContent = '';
+            document.getElementById('codeOutput').classList.remove('error');
+            document.getElementById('codeStatus').textContent = '就绪';
+        }
+        
+        // Reset to example code
+        function resetToExample() {
+            document.getElementById('codeInput').value = "print('Hello, World!')\nx = 10\ny = 20\nprint(x + y)";
+            document.getElementById('codeOutput').textContent = '';
+            document.getElementById('codeOutput').classList.remove('error');
+            document.getElementById('codeStatus').textContent = '就绪';
+        }
+        
+        // Initialize Pyodide when page loads
+        window.addEventListener('load', initPyodide);
+    </script>
+</body>
+</html>

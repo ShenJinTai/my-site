@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python基础课程 | EduPro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap');
+        
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #1e40af;
+            --accent-color: #60a5fa;
+            --text-color: #374151;
+            --light-text: #6b7280;
+            --background-color: #f9fafb;
+            --card-background: #ffffff;
+            --border-color: #e5e7eb;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            background-color: var(--card-background);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            background-color: transparent;
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        /* 课程头部 */
+        .course-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .course-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .course-header p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* 课程内容 */
+        .course-content {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .section-title p {
+            color: var(--light-text);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* 课程大纲 */
+        .course-outline {
+            background-color: var(--card-background);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+        
+        .outline-section {
+            margin-bottom: 2rem;
+        }
+        
+        .outline-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .outline-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .outline-topics {
+            list-style: none;
+        }
+        
+        .outline-topics li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .outline-topics li:last-child {
+            border-bottom: none;
+        }
+        
+        .topic-icon {
+            width: 24px;
+            height: 24px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        /* 课程特色 */
+        .course-features {
+            padding: 4rem 0;
+            background-color: #f3f4f6;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: var(--card-background);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card p {
+            color: var(--light-text);
+        }
+        
+        /* 讲师介绍 */
+        .instructor {
+            padding: 4rem 0;
+        }
+        
+        .instructor-card {
+            background-color: var(--card-background);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .instructor-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .instructor-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .instructor-info h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .instructor-title {
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .instructor-bio {
+            color: var(--light-text);
+            line-height: 1.6;
+        }
+        
+        /* 行动召唤 */
+        .cta {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .cta h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .cta p {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .btn-large {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.125rem;
+        }
+        
+        /* 页脚 */
+        .footer {
+            background-color: #1f2937;
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-section p {
+            color: #d1d5db;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .footer-bottom p {
+            color: #9ca3af;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-link {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #374151;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background-color: var(--primary-color);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .course-header h1 {
+                font-size: 2rem;
+            }
+            
+            .instructor-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .course-header,
+            .course-content,
+            .course-features,
+            .instructor,
+            .cta,
+            .footer {
+                padding: 3rem 0;
+            }
+            
+            .course-header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Code Runner Component */
+        .code-runner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 400px;
+            max-width: 90vw;
+            background-color: var(--card-background);
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            z-index: 1000;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .code-runner.collapsed {
+            height: 50px;
+        }
+        
+        .code-runner-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .code-runner-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .code-runner-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .code-runner-content {
+            padding: 1rem;
+        }
+        
+        .code-runner-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            resize: vertical;
+            margin-bottom: 0.75rem;
+        }
+        
+        .code-runner-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .code-runner-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .code-runner-btn.run {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .code-runner-btn.clear {
+            background-color: var(--border-color);
+            color: var(--text-color);
+        }
+        
+        .code-runner-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .code-runner-output {
+            background-color: #f3f4f6;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            padding: 0.75rem;
+            min-height: 100px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+        
+        .code-runner-output.error {
+            background-color: #fee2e2;
+            border-color: #fecaca;
+            color: #dc2626;
+        }
+        
+        .code-runner-status {
+            font-size: 0.875rem;
+            color: var(--light-text);
+            margin-top: 0.5rem;
+            text-align: right;
+        }
+        
+        @media (max-width: 768px) {
+            .code-runner {
+                width: 95vw;
+                bottom: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Python基础课程</a>
+            <ul class="nav-links">
+                <li><a href="#home">首页</a></li>
+                <li><a href="#course-content">课程内容</a></li>
+                <li><a href="#features">课程特色</a></li>
+                <li><a href="#instructor">讲师介绍</a></li>
+                <li><a href="#faq">常见问题</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="btn btn-outline">登录</a>
+                <a href="#" class="btn btn-primary">立即报名</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 课程头部 -->
+    <section class="course-header" id="home">
+        <div class="container">
+            <h1>Python基础课程</h1>
+            <p>从零开始学习Python编程，掌握基础语法和核心概念，为后续学习打下坚实基础</p>
+        </div>
+    </section>
+    
+    <!-- 课程内容 -->
+    <section class="course-content" id="course-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>课程介绍</h2>
+                <p>在AI编程工具日益普及的今天，系统性学习Python基础不仅依然必要，甚至可以说是更为关键。这并非是对新技术的抗拒，而是为了让你在智能时代掌握真正的主动权，从工具的"使用者"转变为"驾驭者"。</p>
+                <p>本课程专注于培养Python基础编程素养，适合零基础学员。通过系统学习Python基础语法、数据结构、函数与模块、面向对象编程、文件操作与异常处理等核心概念，帮助你快速入门Python编程，建立扎实的编程基础，为与AI工具的高效协作做好准备。</p>
+            </div>
+            
+            <!-- AI时代学习Python基础的重要性 -->
+            <div class="importance-section" style="background-color: var(--card-background); border-radius: 0.75rem; padding: 2rem; box-shadow: var(--shadow); border: 1px solid var(--border-color); margin-bottom: 3rem;">
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--primary-color);">AI时代学习Python基础的重要性</h3>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text-color);">一、掌握核心逻辑：超越工具表象的思维能力</h4>
+                    <p style="color: var(--light-text); line-height: 1.6;">AI编程工具（如代码补全、生成工具）能高效产出代码片段，但它们本质上是基于模式匹配和统计概率的辅助手段。要判断其生成结果的正确性、优化其建议、乃至将其整合成真正可用的解决方案，深入理解编程逻辑和算法基础至关重要。编程的核心是解决问题，而不仅仅是生成语法正确的文本。缺乏基础，你很可能无法理解AI工具生成的复杂代码背后的原理，更无法在它出错或提出低效方案时进行有效干预和修正。系统性学习Python的过程，正是培养这种分析问题、设计算法、优化代码的逻辑思维能力的必经之路。</p>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text-color);">二、构建扎实根基：高效利用与驾驭AI工具的前提</h4>
+                    <p style="color: var(--light-text); line-height: 1.6;">AI辅助工具的强大，建立在用户具备一定编程背景和理解能力的基础上。它们像是给赛车手一辆更快的车，而非教一个不会开车的人如何驾驶。通过系统性学习，你能从变量、循环、函数等基础元素开始，逐步建立起对程序结构、数据流和执行过程的直观感受。这份扎实的根基，能让你在收到AI工具的建议时，快速理解其意图，评估其优劣，并精准地给出后续指令或进行手动调整。没有这个基础，你可能会陷入"照葫芦画瓢，改动一下就不明白了"的困境，工具的使用效率将大打折扣。</p>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text-color);">三、应对复杂挑战：AI工具能力边界之外的必备技能</h4>
+                    <p style="color: var(--light-text); line-height: 1.6;">当前AI编程工具擅长处理模式化、有大量示例的任务，但在面对独特的业务逻辑、复杂的系统架构设计、极致的性能优化或创新性算法实现时，其能力仍有局限。应对这些复杂问题所需的高级编程技巧，如精妙的数据结构选择、算法设计、系统性能剖析与优化等，必须通过系统性学习来掌握。例如，开发一个需要高效处理海量数据的AI应用时，仅靠代码生成工具无法解决数据管道设计、内存管理和分布式计算等深层架构问题，这需要开发者深厚的功底。</p>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text-color);">四、适应技术演进：在快速变化中保持竞争力的基石</h4>
+                    <p style="color: var(--light-text); line-height: 1.6;">技术领域日新月异，新的编程范式、框架和AI工具本身也在不断迭代。系统性学习Python带给你的，远不止一门语言的语法，更是一套学习新技术的方法论和快速适应变化的能力。当你透彻理解了Python的面向对象、函数式编程等核心概念后，学习其他语言或框架会事半功倍。同时，你也能更深刻地理解新工具（包括未来的AI编程工具）背后的设计原理，从而更快地将其整合到项目中，保持个人职业竞争力的持久性。</p>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text-color);">五、解锁广阔前景：通往高价值领域的通行证</h4>
+                    <p style="color: var(--light-text); line-height: 1.6;">Python之所以成为AI时代的首选语言，正是因为它简洁的语法和强大的生态库（如NumPy, Pandas, TensorFlow, PyTorch）。然而，要真正进入人工智能、机器学习、数据科学、自动化等前沿和高薪领域，仅仅会调用工具是不够的。你需要理解这些库的API设计、掌握数据处理的向量化思维、懂得如何训练和调优模型。这一切都建立在扎实的Python基础之上。数据显示，Python开发者的市场需求旺盛，薪资水平可观，系统性学习是获得这些机会的性价比极高的投资。</p>
+                </div>
+                
+                <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                    <h4 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text-color);">结论：</h4>
+                    <p style="color: var(--light-text); line-height: 1.6;">AI编程工具的兴起，不是取代了学习Python基础的必要性，而是对其提出了更高的要求。它将程序员从重复的语法劳动中解放出来，从而能更专注于架构设计、逻辑抽象和创造性解决问题——这些恰恰都需要深厚的基础知识作为支撑。因此，现在学习Python基础，是为了更好地与AI协作，是为了在智能时代构建不可替代的专业深度。建议你以兴趣或目标（如数据分析、网页爬虫、自动化办公）为驱动，踏实地从基础学起，为未来铺就一条更宽广、更自主的道路。</p>
+                </div>
+            </div>
+            
+            <!-- 课程大纲 -->
+            <div class="course-outline">
+                <h3>课程大纲</h3>
+                
+                <div class="outline-section">
+                    <h3>第1章：Python基础语法</h3>
+                    <ul class="outline-topics">
+                        <li>
+                            <div class="topic-icon">1</div>
+                            <span><a href="第1章 Python基础语法/index.html" style="color: var(--primary-color); text-decoration: none;">Python简介与环境搭建</a></span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">2</div>
+                            <span><a href="第1章 Python基础语法/index.html#" style="color: var(--primary-color); text-decoration: none;">变量和数据类型</a></span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">3</div>
+                            <span><a href="第1章 Python基础语法/index.html#" style="color: var(--primary-color); text-decoration: none;">运算符和表达式</a></span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">4</div>
+                            <span><a href="第1章 Python基础语法/index.html#" style="color: var(--primary-color); text-decoration: none;">控制流程（条件语句和循环）</a></span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">5</div>
+                            <span><a href="第1章 Python基础语法/index.html#" style="color: var(--primary-color); text-decoration: none;">输入输出操作</a></span>
+                        </li>
+                    </ul>
+                    <div style="margin-top: 1rem;">
+                        <a href="第1章 Python基础语法/index.html" class="btn btn-primary" style="display: inline-block;">开始学习第1章</a>
+                    </div>
+                </div>
+                
+                <div class="outline-section">
+                    <h3>第2章：数据结构</h3>
+                    <ul class="outline-topics">
+                        <li>
+                            <div class="topic-icon">1</div>
+                            <span>列表（List）</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">2</div>
+                            <span>元组（Tuple）</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">3</div>
+                            <span>字典（Dictionary）</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">4</div>
+                            <span>集合（Set）</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">5</div>
+                            <span>数据结构操作与应用</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="outline-section">
+                    <h3>第3章：函数与模块</h3>
+                    <ul class="outline-topics">
+                        <li>
+                            <div class="topic-icon">1</div>
+                            <span>函数定义和调用</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">2</div>
+                            <span>函数参数（位置参数、默认参数、可变参数）</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">3</div>
+                            <span>返回值和作用域</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">4</div>
+                            <span>模块的导入和使用</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">5</div>
+                            <span>标准库介绍</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="outline-section">
+                    <h3>第4章：面向对象编程</h3>
+                    <ul class="outline-topics">
+                        <li>
+                            <div class="topic-icon">1</div>
+                            <span>类和对象的概念</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">2</div>
+                            <span>类的定义和实例化</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">3</div>
+                            <span>属性和方法</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">4</div>
+                            <span>继承和多态</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">5</div>
+                            <span>面向对象编程最佳实践</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="outline-section">
+                    <h3>第5章：文件操作与异常处理</h3>
+                    <ul class="outline-topics">
+                        <li>
+                            <div class="topic-icon">1</div>
+                            <span>文件打开和关闭</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">2</div>
+                            <span>文件读写操作</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">3</div>
+                            <span>异常的概念</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">4</div>
+                            <span>try-except语句</span>
+                        </li>
+                        <li>
+                            <div class="topic-icon">5</div>
+                            <span>异常处理最佳实践</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 课程特色 -->
+    <section class="course-features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>课程特色</h2>
+                <p>精心设计的课程内容，帮助你快速掌握Python编程基础</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>AI时代的基础素养</h3>
+                    <p>专注于培养扎实的Python基础编程素养，让你在智能时代掌握真正的主动权</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>核心逻辑思维</h3>
+                    <p>培养分析问题、设计算法、优化代码的逻辑思维能力，超越工具表象</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI工具驾驭能力</h3>
+                    <p>建立扎实的编程根基，学会高效利用与驾驭AI编程工具，从"使用者"转变为"驾驭者"</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💼</div>
+                    <h3>未来竞争力</h3>
+                    <p>解锁人工智能、机器学习、数据科学等前沿领域的职业机会，保持持久竞争力</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 讲师介绍 -->
+    <section class="instructor" id="instructor">
+        <div class="container">
+            <div class="section-title">
+                <h2>讲师介绍</h2>
+                <p>专业的Python讲师，拥有丰富的教学经验</p>
+            </div>
+            
+            <div class="instructor-card">
+                <div class="instructor-image">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20Python%20instructor%20with%20glasses%20and%20smile&image_size=square" alt="Python讲师">
+                </div>
+                <div class="instructor-info">
+                    <h3>张教授</h3>
+                    <div class="instructor-title">计算机科学博士，Python专家</div>
+                    <p class="instructor-bio">前谷歌工程师，10年Python编程经验，5年教学经验。专注于Python基础教学和人工智能应用开发，编写过多本Python编程教材，培养了 thousands of Python开发者。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 常见问题 -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-title">
+                <h2>常见问题</h2>
+                <p>解答你关于Python基础课程的疑问</p>
+            </div>
+            <div class="faq-item active">
+                <button class="faq-question">
+                    没有编程经验可以学习这门课程吗？
+                    <span class="faq-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    完全可以！本课程专为零基础学员设计，从最基础的概念开始，循序渐进地讲解Python编程知识，帮助你建立扎实的编程基础。
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    学习这门课程需要什么设备？
+                    <span class="faq-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    只需要一台安装了Python环境的电脑即可。课程会详细讲解如何搭建Python开发环境，无论你使用的是Windows、Mac还是Linux系统。
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    课程有效期是多久？
+                    <span class="faq-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    课程购买后终身有效，你可以随时观看和复习课程内容，不受时间限制。
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    学习过程中遇到问题怎么办？
+                    <span class="faq-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    我们提供在线答疑服务，你可以在课程讨论区提问，讲师会定期回答问题。此外，我们还建立了学习社区，你可以与其他学员交流学习心得。
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    完成课程后能达到什么水平？
+                    <span class="faq-icon">▼</span>
+                </button>
+                <div class="faq-answer">
+                    完成本课程后，你将掌握Python基础编程技能，能够编写简单的Python程序，理解编程思想和方法，为进一步学习Python高级特性和应用开发打下坚实基础。
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 行动召唤 -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>准备好在AI时代掌握Python编程主动权了吗？</h2>
+                <p>加入我们的Python基础课程，培养核心编程思维，从工具的"使用者"转变为"驾驭者"，开启你的智能时代编程之旅</p>
+                <a href="#" class="btn btn-primary btn-large">立即报名</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Python基础课程</h3>
+                    <p>专注于培养Python基础编程素养，帮助你快速入门Python编程，建立扎实的编程基础。</p>
+                    <p>© 2026 Python基础课程. 保留所有权利。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#course-content">课程内容</a></li>
+                        <li><a href="#features">课程特色</a></li>
+                        <li><a href="#instructor">讲师介绍</a></li>
+                        <li><a href="#faq">常见问题</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <p>邮箱：contact@python-course.com</p>
+                    <p>电话：400-123-4567</p>
+                    <p>地址：北京市海淀区中关村大街1号</p>
+                </div>
+                <div class="footer-section">
+                    <h3>关注我们</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">微信公众号</a></li>
+                        <li><a href="#">微博</a></li>
+                        <li><a href="#">知乎</a></li>
+                        <li><a href="#">B站</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Python基础课程. 保留所有权利。</p>
+                <div class="footer-social">
+                    <a href="#" class="social-link">🔗</a>
+                    <a href="#" class="social-link">🐦</a>
+                    <a href="#" class="social-link">📧</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Code Runner Component -->
+    <div class="code-runner" id="codeRunner">
+        <div class="code-runner-header" onclick="toggleCodeRunner()">
+            <h3>Python代码运行器</h3>
+            <button class="code-runner-toggle" id="codeRunnerToggle">▼</button>
+        </div>
+        <div class="code-runner-content">
+            <textarea class="code-runner-textarea" id="codeInput" placeholder="请输入Python代码...
+例如:
+print('Hello, World!')
+x = 10
+y = 20
+print(x + y)"></textarea>
+            <div class="code-runner-controls">
+                <button class="code-runner-btn run" onclick="runCode()">运行代码</button>
+                <button class="code-runner-btn clear" onclick="clearCode()">清空</button>
+                <button class="code-runner-btn clear" onclick="resetToExample()">重置示例</button>
+            </div>
+            <div class="code-runner-output" id="codeOutput"></div>
+            <div class="code-runner-status" id="codeStatus">就绪</div>
+        </div>
+    </div>
+    
+    <!-- Pyodide CDN -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    
+    <script>
+        // FAQ 展开/折叠功能
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                faqItem.classList.toggle('active');
+            });
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // Only prevent default for hash links that point to existing elements
+                const href = this.getAttribute('href');
+                if (href === '#' || document.querySelector(href)) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // 导航栏滚动效果
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+            } else {
+                navbar.style.boxShadow = 'none';
+            }
+        });
+        
+        // Code Runner Functionality
+        let pyodide;
+        let codeRunnerCollapsed = false;
+        
+        // Initialize Pyodide
+        async function initPyodide() {
+            try {
+                document.getElementById('codeStatus').textContent = '正在加载Python环境...';
+                pyodide = await loadPyodide({
+                    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.24.1/full/"
+                });
+                document.getElementById('codeStatus').textContent = '就绪';
+            } catch (error) {
+                console.error('Pyodide initialization error:', error);
+                document.getElementById('codeStatus').textContent = '加载失败';
+                document.getElementById('codeOutput').textContent = 'Python环境加载失败，请刷新页面重试。';
+                document.getElementById('codeOutput').classList.add('error');
+            }
+        }
+        
+        // Toggle code runner
+        function toggleCodeRunner() {
+            const codeRunner = document.getElementById('codeRunner');
+            const toggleBtn = document.getElementById('codeRunnerToggle');
+            codeRunnerCollapsed = !codeRunnerCollapsed;
+            
+            if (codeRunnerCollapsed) {
+                codeRunner.classList.add('collapsed');
+                toggleBtn.textContent = '▶';
+            } else {
+                codeRunner.classList.remove('collapsed');
+                toggleBtn.textContent = '▼';
+            }
+        }
+        
+        // Run code
+        async function runCode() {
+            const code = document.getElementById('codeInput').value;
+            const output = document.getElementById('codeOutput');
+            const status = document.getElementById('codeStatus');
+            
+            if (!code.trim()) {
+                output.textContent = '请输入代码后再运行。';
+                output.classList.add('error');
+                return;
+            }
+            
+            if (!pyodide) {
+                await initPyodide();
+            }
+            
+            output.textContent = '';
+            output.classList.remove('error');
+            status.textContent = '运行中...';
+            
+            try {
+                // Redirect stdout and stderr to output
+                const originalStdout = pyodide.globals.get('sys').stdout;
+                const originalStderr = pyodide.globals.get('sys').stderr;
+                
+                const outputLines = [];
+                
+                pyodide.globals.get('sys').stdout = {
+                    write: function(text) {
+                        outputLines.push(text);
+                    },
+                    flush: function() {}
+                };
+                
+                pyodide.globals.get('sys').stderr = {
+                    write: function(text) {
+                        outputLines.push(text);
+                    },
+                    flush: function() {}
+                };
+                
+                // Run the code
+                await pyodide.runPythonAsync(code);
+                
+                // Restore original stdout/stderr
+                pyodide.globals.get('sys').stdout = originalStdout;
+                pyodide.globals.get('sys').stderr = originalStderr;
+                
+                // Display output
+                output.textContent = outputLines.join('');
+                status.textContent = '运行完成';
+            } catch (error) {
+                output.textContent = error.message;
+                output.classList.add('error');
+                status.textContent = '运行出错';
+            }
+        }
+        
+        // Clear code
+        function clearCode() {
+            document.getElementById('codeInput').value = '';
+            document.getElementById('codeOutput').textContent = '';
+            document.getElementById('codeOutput').classList.remove('error');
+            document.getElementById('codeStatus').textContent = '就绪';
+        }
+        
+        // Reset to example code
+        function resetToExample() {
+            document.getElementById('codeInput').value = "print('Hello, World!')\nx = 10\ny = 20\nprint(x + y)";
+            document.getElementById('codeOutput').textContent = '';
+            document.getElementById('codeOutput').classList.remove('error');
+            document.getElementById('codeStatus').textContent = '就绪';
+        }
+        
+        // Initialize Pyodide when page loads
+        window.addEventListener('load', initPyodide);
+    </script>
+</body>
+</html>
