@@ -522,6 +522,11 @@
         <div class="container">
             <h1>第1章：Python基础语法</h1>
             <p>从零开始学习Python的基本概念和语法规则，为后续学习打下坚实基础</p>
+            <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                <span class="btn btn-outline" style="background-color: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.3);">适合零基础</span>
+                <span class="btn btn-outline" style="background-color: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.3);">AI时代学习路径</span>
+                <span class="btn btn-outline" style="background-color: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.3);">互动学习</span>
+            </div>
         </div>
     </section>
     
@@ -535,6 +540,16 @@
                 <div class="content-text">
                     <p>Python是一种简单易学、功能强大的编程语言，它被广泛应用于Web开发、数据分析、人工智能、科学计算等领域。Python的设计哲学强调代码的可读性和简洁性，使得它成为初学者的理想选择。</p>
                     
+                    <h3 class="section-subtitle">Python在AI时代的重要性</h3>
+                    <p>在AI技术快速发展的今天，Python已经成为人工智能领域的首选编程语言。以下是Python在AI时代的主要应用场景：</p>
+                    <ul>
+                        <li><strong>机器学习</strong>：使用Scikit-learn、TensorFlow、PyTorch等库构建和训练模型</li>
+                        <li><strong>深度学习</strong>：开发神经网络和深度学习模型</li>
+                        <li><strong>自然语言处理</strong>：处理和分析文本数据，开发聊天机器人和语言模型</li>
+                        <li><strong>计算机视觉</strong>：图像识别、目标检测等视觉任务</li>
+                        <li><strong>数据分析与可视化</strong>：处理和分析大量数据，生成直观的可视化结果</li>
+                    </ul>
+                    
                     <h3 class="section-subtitle">Python的特点</h3>
                     <ul>
                         <li><strong>简单易学</strong>：Python语法清晰简洁，代码可读性高，适合初学者</li>
@@ -542,6 +557,7 @@
                         <li><strong>跨平台</strong>：可以在Windows、Mac、Linux等多种操作系统上运行</li>
                         <li><strong>面向对象</strong>：支持面向对象编程，也支持过程式编程</li>
                         <li><strong>解释型</strong>：无需编译，直接运行，开发效率高</li>
+                        <li><strong>AI友好</strong>：拥有丰富的AI相关库和工具，是AI开发的首选语言</li>
                     </ul>
                     
                     <h3 class="section-subtitle">环境搭建步骤</h3>
@@ -575,9 +591,25 @@ python3 --version  # Mac/Linux系统</pre>
                         <li><strong>Sublime Text</strong>：轻量、快速的文本编辑器</li>
                     </ul>
                     
+                    <h3 class="section-subtitle">AI辅助工具推荐</h3>
+                    <p>在AI时代，我们可以利用以下工具来提高学习效率：</p>
+                    <ul>
+                        <li><strong>GitHub Copilot</strong>：AI代码助手，提供代码建议和自动补全</li>
+                        <li><strong>ChatGPT</strong>：可以帮助解答编程问题，提供代码示例</li>
+                        <li><strong>Cursor</strong>：基于AI的代码编辑器，提供智能代码建议</li>
+                        <li><strong>Replit</strong>：在线编程环境，支持协作和AI辅助</li>
+                    </ul>
+                    
                     <div class="tip">
                         <h4>💡 小贴士</h4>
-                        <p>对于初学者，推荐使用Visual Studio Code，它不仅免费，而且有丰富的扩展插件，可以提供代码补全、语法高亮等功能，大大提高编程效率。</p>
+                        <p>对于初学者，推荐使用Visual Studio Code，它不仅免费，而且有丰富的扩展插件，可以提供代码补全、语法高亮等功能，大大提高编程效率。同时，可以安装GitHub Copilot扩展来获得AI辅助编程能力。</p>
+                    </div>
+                    
+                    <div class="exercise">
+                        <h4>🔍 练习</h4>
+                        <p>1. 安装Python并验证安装成功</p>
+                        <p>2. 安装Visual Studio Code并配置Python环境</p>
+                        <p>3. 尝试使用AI辅助工具（如ChatGPT）解答一个简单的Python问题</p>
                     </div>
                 </div>
             </div>
@@ -606,6 +638,7 @@ is_student = True  <span class="code-comment"># 布尔变量</span></pre>
                         <li>变量名不能以数字开头</li>
                         <li>变量名区分大小写</li>
                         <li>不能使用Python的关键字作为变量名（如if、else、for等）</li>
+                        <li>建议使用有意义的变量名，以便于理解代码</li>
                     </ul>
                     
                     <h3 class="section-subtitle">常见数据类型</h3>
@@ -616,7 +649,9 @@ is_student = True  <span class="code-comment"># 布尔变量</span></pre>
                     <div class="code-block">
                         <pre>age = 25
 number = -10
-large_number = 1000000</pre>
+large_number = 1000000
+# Python支持大整数，没有大小限制
+huge_number = 10 ** 100  <span class="code-comment"># 10的100次方</span></pre>
                     </div>
                     
                     <h4>2. 浮点数（float）</h4>
@@ -624,7 +659,9 @@ large_number = 1000000</pre>
                     <div class="code-block">
                         <pre>height = 1.65
 temperature = 37.5
-pi = 3.14159</pre>
+pi = 3.14159
+# 科学记数法
+科学计数 = 1.23e-4  <span class="code-comment"># 等于0.000123</span></pre>
                     </div>
                     
                     <h4>3. 字符串（str）</h4>
@@ -633,14 +670,20 @@ pi = 3.14159</pre>
                         <pre>name = <span class="code-string">"Alice"</span>
 greeting = <span class="code-string">'Hello, world!' </span>
 multiline = <span class="code-string">"""这是一个
-多行字符串"""</span></pre>
+多行字符串"""
+# 字符串拼接
+full_name = <span class="code-string">"张"</span> + <span class="code-string">"三"</span>
+# 字符串格式化
+message = f"你好，{name}！你今年{age}岁。"</pre>
                     </div>
                     
                     <h4>4. 布尔值（bool）</h4>
                     <p>用于表示真或假，只有两个值：True和False，如：</p>
                     <div class="code-block">
                         <pre>is_student = True
-is_teacher = False</pre>
+is_teacher = False
+# 布尔值可以通过比较操作得到
+is_adult = age >= 18  <span class="code-comment"># 结果为True</span></pre>
                     </div>
                     
                     <h3 class="section-subtitle">类型转换</h3>
@@ -660,13 +703,35 @@ print(num_float)  <span class="code-comment"># 输出: 123.0</span>
 <span class="code-comment"># 转换为字符串</span>
 num = 123
 num_str = str(num)
-print(num_str)  <span class="code-comment"># 输出: "123"</span></pre>
+print(num_str)  <span class="code-comment"># 输出: "123"</span>
+
+<span class="code-comment"># 布尔值转换</span>
+print(bool(0))  <span class="code-comment"># 输出: False</span>
+print(bool(1))  <span class="code-comment"># 输出: True</span>
+print(bool(<span class="code-string">""</span>))  <span class="code-comment"># 输出: False</span>
+print(bool(<span class="code-string">"hello"</span>))  <span class="code-comment"># 输出: True</span></pre>
+                    </div>
+                    
+                    <h3 class="section-subtitle">AI时代的变量命名建议</h3>
+                    <p>在AI时代，良好的变量命名不仅有助于代码可读性，也有助于AI工具理解你的代码：</p>
+                    <ul>
+                        <li>使用描述性的变量名，如 <code>user_age</code> 而不是 <code>ua</code></li>
+                        <li>遵循一致的命名风格，如蛇形命名法（snake_case）</li>
+                        <li>对于AI相关变量，使用明确的命名，如 <code>model_accuracy</code> 或 <code>training_loss</code></li>
+                        <li>避免使用单个字母作为变量名（除了循环变量）</li>
+                    </ul>
+                    
+                    <div class="tip">
+                        <h4>💡 小贴士</h4>
+                        <p>在使用AI辅助工具（如GitHub Copilot）时，良好的变量命名可以帮助AI更好地理解你的代码意图，从而提供更准确的代码建议。</p>
                     </div>
                     
                     <div class="exercise">
                         <h4>🔍 练习</h4>
                         <p>1. 定义三个变量：姓名（字符串）、年龄（整数）、身高（浮点数），并输出这些变量的值。</p>
                         <p>2. 将一个整数转换为字符串，将一个字符串转换为浮点数，然后输出结果。</p>
+                        <p>3. 使用f-string格式化输出："我的名字是XXX，今年XX岁，身高XX米。"</p>
+                        <p>4. 尝试使用AI辅助工具（如ChatGPT）生成一个变量命名的最佳实践指南。</p>
                     </div>
                 </div>
             </div>
