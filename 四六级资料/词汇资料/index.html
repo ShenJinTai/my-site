@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>词汇资料 - 四六级学习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00f5ff;
+            --secondary: #7b2ff7;
+            --accent: #ff006e;
+            --bg-dark: #0a0a1a;
+            --bg-card: rgba(20, 20, 40, 0.8);
+            --text: #e0e0ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(123, 47, 247, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 245, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 110, 0.1) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            background: var(--bg-card);
+            padding: 15px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: rgba(0, 245, 255, 0.05);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            color: var(--text);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(123, 47, 247, 0.2));
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            color: var(--text);
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(123, 47, 247, 0.2));
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: rgba(224, 224, 255, 0.7);
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .resource-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            border-color: rgba(0, 245, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 245, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .resource-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .resource-content {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .resource-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .resource-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(0, 245, 255, 0.05);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            background: rgba(0, 245, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .resource-icon {
+            font-size: 1.2rem;
+        }
+
+        .tips-section {
+            background: linear-gradient(135deg, rgba(123, 47, 247, 0.1), rgba(255, 0, 110, 0.1));
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .tips-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .tips-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .tip-icon {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-top: 2px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(224, 224, 255, 0.5);
+            font-size: 0.9rem;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .back-btn {
+                position: static;
+                display: inline-block;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="container">
+        <header>
+            <a href="../../index.html" class="back-home">🏠 返回个人主页</a>
+            <h1>📝 词汇资料</h1>
+            <p class="description">
+                词汇是英语学习的基础，也是四六级考试的重要组成部分。
+                这里为你提供四六级核心词汇、高频词汇和有效的词汇记忆方法，帮助你高效积累词汇量。
+            </p>
+        </header>
+
+        <nav>
+            <a href="../index.html" class="nav-btn">首页</a>
+            <a href="index.html" class="nav-btn active">词汇资料</a>
+            <a href="../听力资料/index.html" class="nav-btn">听力资料</a>
+            <a href="../阅读资料/index.html" class="nav-btn">阅读资料</a>
+            <a href="../写作资料/index.html" class="nav-btn">写作资料</a>
+            <a href="../线上资源/index.html" class="nav-btn">线上资源</a>
+            <a href="../历年真题/index.html" class="nav-btn">历年真题</a>
+            <a href="../备考指南/index.html" class="nav-btn">备考指南</a>
+            <a href="../推荐APP/index.html" class="nav-btn">推荐APP</a>
+        </nav>
+
+        <div class="resource-card">
+            <h2 class="resource-title">📚 核心词汇资料</h2>
+            <div class="resource-content">
+                <p>以下是精心挑选的词汇学习资料，涵盖了四六级考试的核心词汇和高频词汇，帮助你有针对性地进行词汇学习。</p>
+            </div>
+            <div class="resource-links">
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202604/15151100.html" class="resource-link">
+                    <span class="resource-icon">📚</span>
+                    <span>《四六级词汇闪过》 - 按考频划分高频词、基础词与低频词</span>
+                </a>
+                <a href="https://m.koolearn.com/cet4/list-7/" class="resource-link">
+                    <span class="resource-icon">📚</span>
+                    <span>新东方四级词汇必背清单 - 2025年6月大学英语四级词汇必背清单</span>
+                </a>
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202601/15067395.html" class="resource-link">
+                    <span class="resource-icon">📚</span>
+                    <span>《四六级词汇词根+词缀记忆法》 - 科学记忆方法，提高词汇量</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <h2 class="resource-title">💡 词汇记忆技巧</h2>
+            <div class="resource-content">
+                <p>掌握有效的词汇记忆方法，可以大大提高词汇学习的效率。以下是一些实用的词汇记忆技巧：</p>
+            </div>
+            <div class="tips-section">
+                <h3 class="tips-title">词汇记忆小贴士</h3>
+                <ul class="tips-list">
+                    <li class="tip-item">
+                        <span class="tip-icon">🎯</span>
+                        <span><strong>高频优先</strong>：优先记忆考试中出现频率高的词汇，提高备考效率</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">🔗</span>
+                        <span><strong>词根词缀</strong>：利用词根词缀记忆法，扩大词汇量</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">📅</span>
+                        <span><strong>定期复习</strong>：按照艾宾浩斯遗忘曲线规律进行复习</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">📝</span>
+                        <span><strong>语境记忆</strong>：通过例句和上下文理解词汇的用法</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">🎧</span>
+                        <span><strong>多感官记忆</strong>：结合听觉、视觉等多种感官进行记忆</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <h2 class="resource-title">📱 词汇学习APP推荐</h2>
+            <div class="resource-content">
+                <p>利用手机APP进行词汇学习，可以充分利用碎片化时间，提高学习效率。以下是一些推荐的词汇学习APP：</p>
+            </div>
+            <div class="resource-links">
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">📱</span>
+                    <span>百词斩 - 图文结合记忆法，趣味性强</span>
+                </a>
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">📱</span>
+                    <span>墨墨背单词 - 艾宾浩斯遗忘曲线定制复习计划</span>
+                </a>
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">📱</span>
+                    <span>不背单词 - 结合真题例句，语境记忆</span>
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 蔡婷妹 · 用 ❤️ 构建 · 广东科学技术职业学院</p>
+            <p style="margin-top: 10px;">
+                <span style="color: var(--primary);">◈</span>
+                <span style="color: var(--secondary);">◈</span>
+                <span style="color: var(--accent);">◈</span>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

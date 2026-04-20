@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>写作资料 - 四六级学习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00f5ff;
+            --secondary: #7b2ff7;
+            --accent: #ff006e;
+            --bg-dark: #0a0a1a;
+            --bg-card: rgba(20, 20, 40, 0.8);
+            --text: #e0e0ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(123, 47, 247, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 245, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 110, 0.1) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            background: var(--bg-card);
+            padding: 15px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: rgba(0, 245, 255, 0.05);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            color: var(--text);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(123, 47, 247, 0.2));
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            color: var(--text);
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(123, 47, 247, 0.2));
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: rgba(224, 224, 255, 0.7);
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .resource-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            border-color: rgba(0, 245, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 245, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .resource-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .resource-content {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .resource-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .resource-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(0, 245, 255, 0.05);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            background: rgba(0, 245, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .resource-icon {
+            font-size: 1.2rem;
+        }
+
+        .tips-section {
+            background: linear-gradient(135deg, rgba(123, 47, 247, 0.1), rgba(255, 0, 110, 0.1));
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .tips-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .tips-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .tip-icon {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-top: 2px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(224, 224, 255, 0.5);
+            font-size: 0.9rem;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .back-home {
+                position: static;
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .nav-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="container">
+        <header>
+            <a href="../../index.html" class="back-home">🏠 返回个人主页</a>
+            <h1>📄 写作资料</h1>
+            <p class="description">
+                写作是四六级考试的重要组成部分，也是考查英语综合能力的题型。
+                这里为你提供写作模板、写作技巧和历年写作真题，帮助你提高写作水平。
+            </p>
+        </header>
+
+        <nav>
+            <a href="../index.html" class="nav-btn">首页</a>
+            <a href="../词汇资料/index.html" class="nav-btn">词汇资料</a>
+            <a href="../听力资料/index.html" class="nav-btn">听力资料</a>
+            <a href="../阅读资料/index.html" class="nav-btn">阅读资料</a>
+            <a href="index.html" class="nav-btn active">写作资料</a>
+            <a href="../线上资源/index.html" class="nav-btn">线上资源</a>
+            <a href="../历年真题/index.html" class="nav-btn">历年真题</a>
+            <a href="../备考指南/index.html" class="nav-btn">备考指南</a>
+            <a href="../推荐APP/index.html" class="nav-btn">推荐APP</a>
+        </nav>
+
+        <div class="resource-card">
+            <h2 class="resource-title">📝 写作真题资料</h2>
+            <div class="resource-content">
+                <p>以下是精心挑选的写作学习资料，包括历年真题、写作范文和写作模板，帮助你熟悉考试题型和提高写作能力。</p>
+            </div>
+            <div class="resource-links">
+                <a href="https://m.koolearn.com/cet4/list-11/" class="resource-link">
+                    <span class="resource-icon">📝</span>
+                    <span>2025年12月四级作文范文 - 三套全及2026年热门话题预测</span>
+                </a>
+                <a href="https://www.hqwx.com/ziliao/cet/451805.html" class="resource-link">
+                    <span class="resource-icon">📝</span>
+                    <span>大学英语六级写作预测题 - 10篇预测题及范文</span>
+                </a>
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202604/15151100.html" class="resource-link">
+                    <span class="resource-icon">📝</span>
+                    <span>《四六级写作高分范文100篇》 - 涵盖校园生活、社会热点、中国文化等常考话题</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <h2 class="resource-title">💡 写作技巧</h2>
+            <div class="resource-content">
+                <p>掌握有效的写作技巧，可以大大提高写作考试的成绩。以下是一些实用的写作技巧：</p>
+            </div>
+            <div class="tips-section">
+                <h3 class="tips-title">写作技巧小贴士</h3>
+                <ul class="tips-list">
+                    <li class="tip-item">
+                        <span class="tip-icon">🎯</span>
+                        <span><strong>结构清晰</strong>：开头引入主题，中间展开论述，结尾总结观点</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">🔍</span>
+                        <span><strong>论点明确</strong>：每个段落有明确的中心思想，支持主题</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">📝</span>
+                        <span><strong>语言多样</strong>：使用不同的句式和词汇，避免重复</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">⏰</span>
+                        <span><strong>控制时间</strong>：合理分配时间，确保有时间检查和修改</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">🔄</span>
+                        <span><strong>多写多练</strong>：通过大量练习提高写作能力和速度</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <h2 class="resource-title">📚 写作模板</h2>
+            <div class="resource-content">
+                <p>以下是一些常用的写作模板，可以帮助你快速组织文章结构：</p>
+            </div>
+            <div class="tips-section">
+                <h3 class="tips-title">常用写作模板</h3>
+                <ul class="tips-list">
+                    <li class="tip-item">
+                        <span class="tip-icon">📋</span>
+                        <span><strong>观点对比型</strong>：介绍两种不同观点，分析优缺点，给出自己的看法</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">📋</span>
+                        <span><strong>问题解决型</strong>：提出问题，分析原因，给出解决方案</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">📋</span>
+                        <span><strong>现象分析型</strong>：描述现象，分析原因，预测影响或给出建议</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">📋</span>
+                        <span><strong>图表作文</strong>：描述图表数据，分析趋势，给出结论</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 蔡婷妹 · 用 ❤️ 构建 · 广东科学技术职业学院</p>
+            <p style="margin-top: 10px;">
+                <span style="color: var(--primary);">◈</span>
+                <span style="color: var(--secondary);">◈</span>
+                <span style="color: var(--accent);">◈</span>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

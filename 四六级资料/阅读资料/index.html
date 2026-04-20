@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阅读资料 - 四六级学习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00f5ff;
+            --secondary: #7b2ff7;
+            --accent: #ff006e;
+            --bg-dark: #0a0a1a;
+            --bg-card: rgba(20, 20, 40, 0.8);
+            --text: #e0e0ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(123, 47, 247, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 245, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 110, 0.1) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            background: var(--bg-card);
+            padding: 15px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: rgba(0, 245, 255, 0.05);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            color: var(--text);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(123, 47, 247, 0.2));
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            color: var(--text);
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(123, 47, 247, 0.2));
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: rgba(224, 224, 255, 0.7);
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .resource-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            border-color: rgba(0, 245, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 245, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .resource-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .resource-content {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .resource-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .resource-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(0, 245, 255, 0.05);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            background: rgba(0, 245, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .resource-icon {
+            font-size: 1.2rem;
+        }
+
+        .tips-section {
+            background: linear-gradient(135deg, rgba(123, 47, 247, 0.1), rgba(255, 0, 110, 0.1));
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .tips-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .tips-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .tip-icon {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-top: 2px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(224, 224, 255, 0.5);
+            font-size: 0.9rem;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .back-home {
+                position: static;
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .nav-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="container">
+        <header>
+            <a href="../../index.html" class="back-home">🏠 返回个人主页</a>
+            <h1>✍️ 阅读资料</h1>
+            <p class="description">
+                阅读理解是四六级考试的重要组成部分，也是分值较高的题型。
+                这里为你提供阅读理解技巧、阅读练习和历年阅读真题，帮助你提高阅读能力。
+            </p>
+        </header>
+
+        <nav>
+            <a href="../index.html" class="nav-btn">首页</a>
+            <a href="../词汇资料/index.html" class="nav-btn">词汇资料</a>
+            <a href="../听力资料/index.html" class="nav-btn">听力资料</a>
+            <a href="index.html" class="nav-btn active">阅读资料</a>
+            <a href="../写作资料/index.html" class="nav-btn">写作资料</a>
+            <a href="../线上资源/index.html" class="nav-btn">线上资源</a>
+            <a href="../历年真题/index.html" class="nav-btn">历年真题</a>
+            <a href="../备考指南/index.html" class="nav-btn">备考指南</a>
+            <a href="../推荐APP/index.html" class="nav-btn">推荐APP</a>
+        </nav>
+
+        <div class="resource-card">
+            <h2 class="resource-title">📖 阅读真题资料</h2>
+            <div class="resource-content">
+                <p>以下是精心挑选的阅读学习资料，包括历年真题、阅读练习和专项训练，帮助你熟悉考试题型和提高阅读能力。</p>
+            </div>
+            <div class="resource-links">
+                <a href="https://www.kekenet.com/cet4/202202/652964.shtml" class="resource-link">
+                    <span class="resource-icon">📖</span>
+                    <span>2017-2021年四级阅读真题 - 涵盖健康、旅游、大众科学和社会文化等题材</span>
+                </a>
+                <a href="https://m.koolearn.com/cet4/list-9/" class="resource-link">
+                    <span class="resource-icon">📖</span>
+                    <span>2026年6月英语四级阅读专项训练 - 博士退学者、制止野蛮体育活动等话题</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <h2 class="resource-title">💡 阅读技巧</h2>
+            <div class="resource-content">
+                <p>掌握有效的阅读技巧，可以大大提高阅读考试的成绩。以下是一些实用的阅读技巧：</p>
+            </div>
+            <div class="tips-section">
+                <h3 class="tips-title">阅读技巧小贴士</h3>
+                <ul class="tips-list">
+                    <li class="tip-item">
+                        <span class="tip-icon">🎯</span>
+                        <span><strong>先看题目</strong>：快速浏览题目，了解文章主题和考点</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">🔍</span>
+                        <span><strong>扫读定位</strong>：根据题目关键词在文章中快速定位答案</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">📝</span>
+                        <span><strong>抓住主干</strong>：关注句子的主谓宾，理解文章大意</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">⏰</span>
+                        <span><strong>控制时间</strong>：合理分配时间，避免在难题上花费过多时间</span>
+                    </li>
+                    <li class="tip-item">
+                        <span class="tip-icon">🔄</span>
+                        <span><strong>多做练习</strong>：通过大量练习提高阅读速度和准确率</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <h2 class="resource-title">📚 阅读材料推荐</h2>
+            <div class="resource-content">
+                <p>除了真题外，以下是一些推荐的阅读材料，可以帮助你提高阅读能力：</p>
+            </div>
+            <div class="resource-links">
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">🌐</span>
+                    <span>VOA Learning English - 慢速英语新闻，适合提高阅读能力</span>
+                </a>
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">🌐</span>
+                    <span>BBC Learning English - 英语学习网站，提供各种阅读材料</span>
+                </a>
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">🌐</span>
+                    <span>中国大学 MOOC - 提供英语阅读课程，帮助提高阅读能力</span>
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 蔡婷妹 · 用 ❤️ 构建 · 广东科学技术职业学院</p>
+            <p style="margin-top: 10px;">
+                <span style="color: var(--primary);">◈</span>
+                <span style="color: var(--secondary);">◈</span>
+                <span style="color: var(--accent);">◈</span>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

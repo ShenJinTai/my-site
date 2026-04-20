@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>线上资源 - 四六级学习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00f5ff;
+            --secondary: #7b2ff7;
+            --accent: #ff006e;
+            --bg-dark: #0a0a1a;
+            --bg-card: rgba(20, 20, 40, 0.8);
+            --text: #e0e0ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(123, 47, 247, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 245, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 110, 0.1) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            background: var(--bg-card);
+            padding: 15px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: rgba(0, 245, 255, 0.05);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            color: var(--text);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(123, 47, 247, 0.2));
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            color: var(--text);
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(123, 47, 247, 0.2));
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: rgba(224, 224, 255, 0.7);
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .resource-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            border-color: rgba(0, 245, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 245, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .resource-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .resource-content {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .resource-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .resource-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(0, 245, 255, 0.05);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            background: rgba(0, 245, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .resource-icon {
+            font-size: 1.2rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(224, 224, 255, 0.5);
+            font-size: 0.9rem;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .back-home {
+                position: static;
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .nav-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="container">
+        <header>
+            <a href="../../index.html" class="back-home">🏠 返回个人主页</a>
+            <h1>🌐 线上资源</h1>
+            <p class="description">
+                线上资源是四六级备考的重要补充，包括官方网站、学习平台和备考APP等。
+                这里为你提供精选的线上资源，帮助你更高效地备考。
+            </p>
+        </header>
+
+        <nav>
+            <a href="../index.html" class="nav-btn">首页</a>
+            <a href="../词汇资料/index.html" class="nav-btn">词汇资料</a>
+            <a href="../听力资料/index.html" class="nav-btn">听力资料</a>
+            <a href="../阅读资料/index.html" class="nav-btn">阅读资料</a>
+            <a href="../写作资料/index.html" class="nav-btn">写作资料</a>
+            <a href="index.html" class="nav-btn active">线上资源</a>
+            <a href="../历年真题/index.html" class="nav-btn">历年真题</a>
+            <a href="../备考指南/index.html" class="nav-btn">备考指南</a>
+            <a href="../推荐APP/index.html" class="nav-btn">推荐APP</a>
+        </nav>
+
+        <div class="resource-card">
+            <h2 class="resource-title">🏢 官方网站</h2>
+            <div class="resource-content">
+                <p>以下是四六级考试相关的官方网站，提供考试资讯、报名信息、成绩查询等服务：</p>
+            </div>
+            <div class="resource-links">
+                <a href="https://cet4-6.xdf.cn/" class="resource-link">
+                    <span class="resource-icon">🌐</span>
+                    <span>新东方英语四六级官网 - 提供最新考试资讯、真题资料、备考技巧</span>
+                </a>
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">🌐</span>
+                    <span>中国教育考试网 - 四六级考试官方发布平台</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <h2 class="resource-title">📚 学习平台</h2>
+            <div class="resource-content">
+                <p>以下是推荐的英语学习平台，提供丰富的学习资源和课程：</p>
+            </div>
+            <div class="resource-links">
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">🌐</span>
+                    <span>中国大学 MOOC - 提供英语听力课程，帮助提高听力水平</span>
+                </a>
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">🌐</span>
+                    <span>灯塔英语分级阅读资源库 - 基于AI技术的英语阅读能力提升平台</span>
+                </a>
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">🌐</span>
+                    <span>酷学资源服务系统 - 集中了优秀在线课程题库</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <h2 class="resource-title">📱 备考APP</h2>
+            <div class="resource-content">
+                <p>以下是推荐的四六级备考APP，帮助你利用碎片化时间进行学习：</p>
+            </div>
+            <div class="resource-links">
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">📱</span>
+                    <span>百词斩 - 图文结合记忆法，趣味性强</span>
+                </a>
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">📱</span>
+                    <span>墨墨背单词 - 艾宾浩斯遗忘曲线定制复习计划</span>
+                </a>
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">📱</span>
+                    <span>每日英语听力 - 海量听力资源，支持单句精听</span>
+                </a>
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">📱</span>
+                    <span>粉笔四六级 - 历年真题，答案解析详尽</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="resource-card">
+            <h2 class="resource-title">🎧 听力资源</h2>
+            <div class="resource-content">
+                <p>以下是推荐的听力资源网站，帮助你提高听力水平：</p>
+            </div>
+            <div class="resource-links">
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">🌐</span>
+                    <span>VOA Learning English - 慢速英语新闻，适合提高听力能力</span>
+                </a>
+                <a href="http://mtoutiao.xdf.cn/cet4-6/202507/14719465.html" class="resource-link">
+                    <span class="resource-icon">🌐</span>
+                    <span>BBC Learning English - 英语学习网站，提供各种听力材料</span>
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 蔡婷妹 · 用 ❤️ 构建 · 广东科学技术职业学院</p>
+            <p style="margin-top: 10px;">
+                <span style="color: var(--primary);">◈</span>
+                <span style="color: var(--secondary);">◈</span>
+                <span style="color: var(--accent);">◈</span>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

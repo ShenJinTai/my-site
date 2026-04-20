@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>四六级资料 - 学习中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00f5ff;
+            --secondary: #7b2ff7;
+            --accent: #ff006e;
+            --bg-dark: #0a0a1a;
+            --bg-card: rgba(20, 20, 40, 0.8);
+            --text: #e0e0ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(123, 47, 247, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 245, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 110, 0.1) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            background: var(--bg-card);
+            padding: 15px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: rgba(0, 245, 255, 0.05);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            color: var(--text);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(123, 47, 247, 0.2));
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            color: var(--text);
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(123, 47, 247, 0.2));
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: rgba(224, 224, 255, 0.7);
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .module-card:hover {
+            border-color: rgba(0, 245, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 245, 255, 0.15);
+            transform: translateY(-10px);
+        }
+
+        .module-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .module-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .module-desc {
+            color: rgba(224, 224, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(224, 224, 255, 0.5);
+            font-size: 0.9rem;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .back-home {
+                position: static;
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .nav-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="container">
+        <header>
+            <a href="../index.html" class="back-home">🏠 返回个人主页</a>
+            <h1>📚 四六级资料学习中心</h1>
+            <p class="description">
+                这里为你提供大学英语四六级考试的相关资料和备考指南，帮助你顺利通过考试。
+                选择下方的资料分类，进入对应的详细页面查看更多内容。
+            </p>
+        </header>
+
+        <nav>
+            <a href="index.html" class="nav-btn active">首页</a>
+            <a href="词汇资料/index.html" class="nav-btn">词汇资料</a>
+            <a href="听力资料/index.html" class="nav-btn">听力资料</a>
+            <a href="阅读资料/index.html" class="nav-btn">阅读资料</a>
+            <a href="写作资料/index.html" class="nav-btn">写作资料</a>
+            <a href="线上资源/index.html" class="nav-btn">线上资源</a>
+            <a href="历年真题/index.html" class="nav-btn">历年真题</a>
+            <a href="备考指南/index.html" class="nav-btn">备考指南</a>
+            <a href="推荐APP/index.html" class="nav-btn">推荐APP</a>
+        </nav>
+
+        <div class="module-grid">
+            <a href="词汇资料/index.html" class="module-card">
+                <div class="module-icon">📝</div>
+                <h3 class="module-title">词汇资料</h3>
+                <p class="module-desc">四六级核心词汇、高频词汇、词汇记忆方法</p>
+            </a>
+
+            <a href="听力资料/index.html" class="module-card">
+                <div class="module-icon">📖</div>
+                <h3 class="module-title">听力资料</h3>
+                <p class="module-desc">听力练习、听力技巧、历年听力真题</p>
+            </a>
+
+            <a href="阅读资料/index.html" class="module-card">
+                <div class="module-icon">✍️</div>
+                <h3 class="module-title">阅读资料</h3>
+                <p class="module-desc">阅读理解技巧、阅读练习、历年阅读真题</p>
+            </a>
+
+            <a href="写作资料/index.html" class="module-card">
+                <div class="module-icon">📄</div>
+                <h3 class="module-title">写作资料</h3>
+                <p class="module-desc">写作模板、写作技巧、历年写作真题</p>
+            </a>
+
+            <a href="线上资源/index.html" class="module-card">
+                <div class="module-icon">🌐</div>
+                <h3 class="module-title">线上资源</h3>
+                <p class="module-desc">官方网站、学习平台、备考APP</p>
+            </a>
+
+            <a href="历年真题/index.html" class="module-card">
+                <div class="module-icon">📚</div>
+                <h3 class="module-title">历年真题</h3>
+                <p class="module-desc">最新真题及答案解析</p>
+            </a>
+
+            <a href="备考指南/index.html" class="module-card">
+                <div class="module-icon">🏆</div>
+                <h3 class="module-title">备考指南</h3>
+                <p class="module-desc">考试时间安排、备考计划、考试技巧</p>
+            </a>
+
+            <a href="推荐APP/index.html" class="module-card">
+                <div class="module-icon">📱</div>
+                <h3 class="module-title">推荐APP</h3>
+                <p class="module-desc">实用的四六级备考手机应用</p>
+            </a>
+        </div>
+
+        <footer>
+            <p>© 2026 蔡婷妹 · 用 ❤️ 构建 · 广东科学技术职业学院</p>
+            <p style="margin-top: 10px;">
+                <span style="color: var(--primary);">◈</span>
+                <span style="color: var(--secondary);">◈</span>
+                <span style="color: var(--accent);">◈</span>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
